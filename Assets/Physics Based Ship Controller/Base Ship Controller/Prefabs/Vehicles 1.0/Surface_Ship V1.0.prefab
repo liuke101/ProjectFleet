@@ -3192,7 +3192,6 @@ MonoBehaviour:
   - Name: Escape_Deep
     Height: -15
     position: {x: 0, y: 0, z: 0}
-  currentHeightIndex: 0
   targetHeight: 0
   heightChangeSpeed: 2
   m_shipHeightIndex: 0

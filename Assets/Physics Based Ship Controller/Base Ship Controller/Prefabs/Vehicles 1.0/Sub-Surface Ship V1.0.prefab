@@ -2225,7 +2225,6 @@ MonoBehaviour:
   - Name: Surface
     Height: -15
     position: {x: 0, y: 0, z: 0}
-  currentHeightIndex: 3
   targetHeight: 3
   heightChangeSpeed: 0.1
   m_shipHeightIndex: 0
