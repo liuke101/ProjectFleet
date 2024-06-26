@@ -8,7 +8,7 @@ namespace Vbertz.PBSC
     public class Deep_Indicator : MonoBehaviour
     {
 
-        public Physics_Based_Ship_Controller Ship;
+        public PhysicsBasedShipController Ship;
         public Slider DeepIndicator;
         public Text DeepText;
 

@@ -7,24 +7,22 @@ namespace Vbertz.PBSC
     public class AutopilotController : MonoBehaviour
     {
         public Text TargetDistanceText;
-        [SerializeField] private Physics_Based_Ship_Controller shipController;
+        [SerializeField] private PhysicsBasedShipController shipController;
 
-        [SerializeField] private Transform target; // El objetivo al que el barco debe dirigirse
+        //目标
+        [SerializeField] private Transform target;
+        [SerializeField] public Vector3 TargetPositon;
 
-        [SerializeField]
-        private float
-            closeEnoughDistance = 1f; // La distancia a la que se considera que el barco ha llegado al objetivo
+        [SerializeField] private float closeEnoughDistance = 1f; //足够接近时停止
+        [SerializeField] private KeyCode autopilotKey = KeyCode.P; //激活自动驾驶的按键
 
-        [SerializeField]
-        private KeyCode autopilotKey = KeyCode.P; // La tecla para activar/desactivar el piloto automático
+        [SerializeField] private float decelerationDistance = 10f; /// 船开始减速的距离desacelerar
 
-        [SerializeField]
-        private float decelerationDistance = 10f; // La distancia a la que el barco comienza a desacelerar
+        private bool isAutopilotActive = false; 
 
-        private bool isAutopilotActive = false; // Si el piloto automático está activo o no
-
-        private int originalForwardVelocity; // La velocidad hacia adelante original del barco
-        private int originalTurnVelocity; // La velocidad de giro original del barco
+        private int originalForwardVelocity; //初始前进速度
+        private int originalTurnVelocity; // 初始转向速度
+        
         public float lastTurnTime;
         public float turnCooldown;
         public float detectionDistance;
@@ -32,43 +30,47 @@ namespace Vbertz.PBSC
 
         private void Start()
         {
-            // Guarda los valores originales de las velocidades
-            originalForwardVelocity = shipController.CurrentForwardVelocity;
-            originalTurnVelocity = shipController.CurrentTurnVelocity;
+            //保存原始速度值
+            originalForwardVelocity = shipController.CurrentForwardVelocityIndex;
+            originalTurnVelocity = shipController.CurrentTurnVelocityIndex;
         }
 
         private void Update()
         {
+            //检测前方是否有障碍
             RaycastHit hit;
             if (Physics.Raycast(transform.position, transform.forward, out hit, detectionDistance))
             {
-                // Si el rayo golpea un obstáculo, gira el barco para evitarlo
-                if (hit.collider.gameObject.CompareTag("Obstacle"))
+                if (hit.collider.gameObject.CompareTag("Ship"))
                 {
                     shipController.TurnRight();
                 }
             }
 
-            // Si el jugador pulsa la tecla del piloto automático, cambia el estado del piloto automático
+            // 按键控制
             if (Input.GetKeyDown(autopilotKey))
             {
                 isAutopilotActive = !isAutopilotActive;
                 ActivationToggle.isOn = !ActivationToggle.isOn;
             }
-
-            // Si el piloto automático está desactivado, no hacemos nada
+            
             if (!isAutopilotActive)
             {
                 return;
             }
 
-            Vector3 directionToTarget = (target.position - transform.position).normalized;
+            Vector3 directionToTarget = (TargetPositon - transform.position).normalized;
             float targetAngle = Mathf.Atan2(directionToTarget.x, directionToTarget.z) * Mathf.Rad2Deg;
 
-            // Calcula la diferencia de ángulo entre la dirección actual del barco y la dirección al objetivo
+            // 计算船当前方向与目标方向之间的角度差。
+            // 从前往右0~180 从前往左0~-180
             float angleDifference = Mathf.DeltaAngle(transform.eulerAngles.y, targetAngle);
 
-            // Si la diferencia de ángulo es positiva, gira a la derecha; si es negativa, gira a la izquierda
+            //转向系数, sin函数关系，当angleDifference=0时，turnFactor=0；当angleDifference=180时，turnFactor=1
+            //这样可以让大角度差转向更快，小角度差转向更慢
+            //float turnFactor = Mathf.Abs(Mathf.Sin(angleDifference * Mathf.Deg2Rad));
+            
+            // // 如果角度差为正，则向右转；如果为负，则向左转。
             if (angleDifference > 0)
             {
                 shipController.TurnRight();
@@ -77,38 +79,44 @@ namespace Vbertz.PBSC
             {
                 shipController.TurnLeft();
             }
+            else
+            {
+                shipController.CurrentTurnSpeed = 0;
+            }
 
-            // Calcula la distancia al objetivo
-            float distanceToTarget = Vector3.Distance(transform.position, target.position);
+            // 计算到目标的距离
+            float distanceToTarget = Vector3.Distance(transform.position, TargetPositon);
 
-            // Si el barco está lo suficientemente cerca del objetivo, detén el barco y desactiva el piloto automático
+            // 如果船已足够接近目标，则停止船并解除自动驾驶。
             if (distanceToTarget <= closeEnoughDistance)
             {
                 shipController.MoveBackward();
-                shipController.CurrentForwardVelocity = originalForwardVelocity;
-                shipController.CurrentTurnVelocity = originalTurnVelocity;
+                shipController.CurrentForwardVelocityIndex = originalForwardVelocity;
+                shipController.CurrentTurnVelocityIndex = originalTurnVelocity;
                 isAutopilotActive = false; // Desactiva el piloto automático
                 ActivationToggle.isOn = false;
             }
-            else if
-                (distanceToTarget <=
-                 decelerationDistance) // Si el barco está dentro de la distancia de desaceleración, comienza a desacelerar
+            else if (distanceToTarget <=
+                     decelerationDistance) // 如果船在减速距离内，则开始减速。
             {
-                // Calcula un factor de desaceleración basado en cuán cerca está el barco del objetivo
+                // 根据飞船与目标的距离计算减速因子。
                 float decelerationFactor = distanceToTarget / decelerationDistance;
 
-                // Ajusta la velocidad del barco en función del factor de desaceleración
+                // 根据减速因子调整船速
                 shipController.CurrentSpeed *= decelerationFactor;
             }
-            else // De lo contrario, avanza a toda velocidad
+            else //否则全速前进
             {
                 shipController.MoveForward();
             }
 
+            //UI
             TargetDistanceText.text = distanceToTarget.ToString("f0") + "meters To target";
+            
+            
             if (Time.time - lastTurnTime > turnCooldown)
             {
-                // Si la diferencia de ángulo es positiva, gira a la derecha; si es negativa, gira a la izquierda
+                // 如果角度差为正，则右转；如果为负，则左转
                 if (angleDifference > 0)
                 {
                     shipController.TurnRight();

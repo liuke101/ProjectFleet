@@ -4,7 +4,7 @@ using UnityEditor;
 namespace Vbertz.PBSC
 {
 
-	[CustomEditor(typeof(Physics_Based_Ship_Controller))]
+	[CustomEditor(typeof(PhysicsBasedShipController))]
 	public class ShipController_editor : Editor
 	{
 		public Texture2D Header; // Asegúrate de que esta imagen esté en tu carpeta de Resources
@@ -32,7 +32,7 @@ namespace Vbertz.PBSC
 			EditorGUILayout.LabelField("Type", EditorStyles.boldLabel);
 			//GUILayout.Label(Sub_Type_img, GUILayout.MaxHeight(100));
 
-			Physics_Based_Ship_Controller shipController = (Physics_Based_Ship_Controller)target;
+			PhysicsBasedShipController shipController = (PhysicsBasedShipController)target;
 			shipController.IsSubmarine = EditorGUILayout.Toggle("Is Submarine", shipController.IsSubmarine);
 			shipController.IsSurfaceShip = EditorGUILayout.Toggle("Is Surface Ship", shipController.IsSurfaceShip);
 
