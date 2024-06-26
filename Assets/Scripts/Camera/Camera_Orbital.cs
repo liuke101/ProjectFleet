@@ -14,7 +14,6 @@ namespace Vbertz.PBSC
 		public float distanceMax = 20f;
 		public KeyCode RotateKey;
 
-		private Rigidbody rigidbody;
 		float x = 0.0f;
 		float y = 0.0f;
 
@@ -25,13 +24,9 @@ namespace Vbertz.PBSC
 			x = angles.y;
 			y = angles.x;
 
-			rigidbody = GetComponent<Rigidbody>();
-
+			;
 			// Make the rigid body not change rotation
-			if (rigidbody != null)
-			{
-				rigidbody.freezeRotation = true;
-			}
+			//GetComponent<Rigidbody>().freezeRotation = true;
 		}
 
 		void LateUpdate()

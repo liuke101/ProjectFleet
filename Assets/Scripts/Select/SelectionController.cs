@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class SelectionController : MonoSingleton<SelectionController>
 {
-    private LineRenderer lineRenderer;
+    public LineRenderer lineRenderer;
     private bool isMouseDown = false;
     
     //鼠标框选的四个点
@@ -30,15 +30,15 @@ public class SelectionController : MonoSingleton<SelectionController>
     protected override void Awake()
     {
         base.Awake();
-        
-        lineRenderer = this.GetComponent<LineRenderer>();
-        lineRenderer.loop = true; //设置线框为闭合的
-        lineRenderer.widthCurve = AnimationCurve.Constant(0, 1, lineWidth); //设置线框的宽度
     }
-
+    
     void Start()
     {
-        
+        if (lineRenderer)
+        {
+            lineRenderer.loop = true; //设置线框为闭合的
+            lineRenderer.widthCurve = AnimationCurve.Constant(0, 1, lineWidth); //设置线框的宽度    
+        }
     }
 
     void Update()
@@ -126,31 +126,16 @@ public class SelectionController : MonoSingleton<SelectionController>
             //检测盒
             Collider[] colliders = Physics.OverlapBox(Center, HalfExtents);
             
-            //收集带有Vehicle脚本的ship作为选中的ship(Vehicle为AdvancedShipController的基类）
-            // List<Vehicle> vehicles = new List<Vehicle>();
-            //
-            // foreach (var tmp in colliders)
-            // {
-            //     Vehicle vehicle = tmp.gameObject.GetComponent<Vehicle>();
-            //     if (vehicle)
-            //     {
-            //         vehicles.Add(vehicle);
-            //         selectedShips.Add(tmp.gameObject);
-            //         
-            //         //高亮
-            //         HighlightEffect HighlightShip = tmp.gameObject.GetComponent<HighlightEffect>();
-            //         if(HighlightShip)
-            //         {
-            //             HighlightShip.SetHighlighted(true);
-            //         }
-            //     }
-            // }
-            //
-            // //激活选择对象的AdvancedShipController脚本，来进行控制
-            // if (vehicles.Count > 0)
-            // {
-            //     VehicleChanger.Instance.ChangeVehicle(vehicles);
-            // }
+             foreach (var tmp in colliders)
+             {
+                 //高亮
+                 HighlightEffect HighlightShip = tmp.gameObject.GetComponent<HighlightEffect>();
+                 if(HighlightShip)
+                 {
+                     HighlightShip.SetHighlighted(true);
+                     selectedShips.Add(tmp.gameObject);
+                 }
+             }
         }
     }
     

@@ -118,7 +118,7 @@ namespace Vbertz.PBSC
 
 		};
 
-		[SerializeField] private int currentHeightIndex = 0;
+		//[SerializeField] private int currentHeightIndex = 0;
 		[SerializeField] public float targetHeight;
 		[SerializeField] private float heightChangeSpeed = 2.0f;
 
