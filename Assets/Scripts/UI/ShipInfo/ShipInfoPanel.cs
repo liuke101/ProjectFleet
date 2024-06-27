@@ -44,12 +44,12 @@ public class ShipInfoPanel : MonoBehaviour
             info.SetName(shipController.shipInfo.ShipName);
                 
             //监听速度变化
-            shipController.m_onChangeForwardVelocity.AddListener((speed) =>
+            shipController.OnChangeForwardVelocity.AddListener((speed) =>
             {
                 info.SetForwardSpeed(speed);
             });
                 
-            shipController.m_onChangeTurnVelocity.AddListener((speed) =>
+            shipController.OnChangeTurnVelocity.AddListener((speed) =>
             {
                 info.SetTurnSpeed(speed);
             });

@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using HighlightPlus;
 using UnityEngine;
 using UnityEngine.Events;
-using Vbertz.PBSC;
 
-public class ShipSelectionController : MonoSingleton<ShipSelectionController>
+//TODO:框选后给命令
+public class BoxSelectController : MonoSingleton<BoxSelectController>
 {
     public LineRenderer lineRenderer;
     private bool isMouseDown = false;
@@ -16,29 +16,23 @@ public class ShipSelectionController : MonoSingleton<ShipSelectionController>
     private Vector3 rightDownPoint;
     private Vector3 leftDownPoint;
     
-    public float lineDepth = 5.0f; //绘制线框的深度
-    public float lineWidth = 0.1f; //线框的宽度
+    //上一次鼠标点击的位置
+    private Vector3 frontMousePos = Vector3.zero;
     
     //射线检测
     RaycastHit hitInfo;
     private Vector3 rayBeginWorldPos;
+    
+    public float lineDepth = 5.0f; //绘制线框的深度
+    public float lineWidth = 0.1f; //线框的宽度
    
     [HideInInspector]public List<GameObject> selectedShips = new List<GameObject>();
     
-    //上一次鼠标点击的位置
-    private Vector3 frontMousePos = Vector3.zero;
-    
     //船只间隔距离
-    public float IntervalDistance = 10.0f;
-    
+    public float IntervalDistance = 20.0f;
     
     [Header("事件")]
     public UnityEvent<List<GameObject>> OnSelected = new UnityEvent<List<GameObject>>();
-    
-    protected override void Awake()
-    {
-        base.Awake();
-    }
     
     void Start()
     {
@@ -98,15 +92,13 @@ public class ShipSelectionController : MonoSingleton<ShipSelectionController>
             }
         }
         
-        //
-        MoveTo();
+        //左键点击移动
+        if (Input.GetMouseButtonDown(0))
+        {
+            MoveTo();
+        }
     }
-
-    private void ClearSelected()
-    {
-        
-    }
-
+    
     private void BoxSelect()
     {
         //清空上次的选择
@@ -137,24 +129,24 @@ public class ShipSelectionController : MonoSingleton<ShipSelectionController>
             //关闭对所有船只的控制，只恢复选中的船只
             PhysicsBasedShipManager.Instance.DeactiveAllShips();
             
-             foreach (var tmp in colliders)
-             {
-                 PhysicsBasedShipController shipController = tmp.gameObject.GetComponent<PhysicsBasedShipController>();
-                 if(shipController)
+            foreach (var tmp in colliders)
+            {
+                PhysicsBasedShipController shipController = tmp.gameObject.GetComponent<PhysicsBasedShipController>();
+                if(shipController)
+                {
+                 selectedShips.Add(tmp.gameObject);
+                 
+                 //恢复控制
+                 shipController.enabled = true;
+                 
+                 //高亮
+                 HighlightEffect HighlightShip = tmp.gameObject.GetComponent<HighlightEffect>();
+                 if(HighlightShip)
                  {
-                     selectedShips.Add(tmp.gameObject);
-                     
-                     //恢复控制
-                     shipController.enabled = true;
-                     
-                     //高亮
-                     HighlightEffect HighlightShip = tmp.gameObject.GetComponent<HighlightEffect>();
-                     if(HighlightShip)
-                     {
-                         HighlightShip.SetHighlighted(true);
-                     }
+                     HighlightShip.SetHighlighted(true);
                  }
-             }
+                }
+            }
 
              //广播
              if (selectedShips.Count > 0)
@@ -166,30 +158,27 @@ public class ShipSelectionController : MonoSingleton<ShipSelectionController>
     
     public void MoveTo()
     {
-        //左键点击移动
-        if (Input.GetMouseButtonDown(0))
-        {
-            if (selectedShips.Count <= 0) return;
+        if (selectedShips.Count <= 0) return;
 
-            //目标位置
-            if (Physics.Raycast(
-                    Camera.main.ScreenPointToRay(Input.mousePosition),
-                    out hitInfo,
-                    2000,
-                    1 << LayerMask.NameToLayer("Water")))
+        //目标位置
+        if (Physics.Raycast(
+                Camera.main.ScreenPointToRay(Input.mousePosition),
+                out hitInfo,
+                2000,
+                1 << LayerMask.NameToLayer("Water")))
+        {
+            //计算阵列目标点
+            List<Vector3> TargetPositions = GetTargetPositions(hitInfo.point);
+            
+            for(int i = 0; i<selectedShips.Count; i++)
             {
-                //计算阵列目标点
-                List<Vector3> TargetPositions = GetTargetPositions(hitInfo.point);
-                
-                for(int i = 0; i<selectedShips.Count; i++)
+                ShipNavController navController = selectedShips[i].GetComponent<ShipNavController>();
+                if (navController)
                 {
-                    AutopilotController AutopilotController = selectedShips[i].GetComponent<AutopilotController>();
-                    if (AutopilotController)
-                    {
-                        //船朝向阵列目标移动
-                        Debug.DrawLine(TargetPositions[i], TargetPositions[i] + Vector3.up * 100, Color.red, 100.0f);
-                        AutopilotController.TargetPositon = TargetPositions[i];
-                    }
+                    //船朝向阵列目标移动
+                    Debug.DrawLine(TargetPositions[i], TargetPositions[i] + Vector3.up * 100, Color.red, 100.0f);
+                    
+                    navController.MoveTo(TargetPositions[i]);
                 }
             }
         }

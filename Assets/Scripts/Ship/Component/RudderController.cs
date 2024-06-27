@@ -2,23 +2,26 @@ using System.Collections;
 using UnityEngine;
 
 
+/// <summary>
+/// 船舵控制器
+/// </summary>
 public class RudderController : MonoBehaviour
 {
     [SerializeField] public PhysicsBasedShipController shipController;
-    [SerializeField] private float maxRudderAngle = 30f; // El ángulo máximo que puede girar el timón
+    [SerializeField] private float maxRudderAngle = 30f; // 舵可以转动的最大角度
 
     [SerializeField]
-    private float anticipationFactor = 0.5f; // Cuántos segundos antes quieres que el timón comience a girar
+    private float anticipationFactor = 0.5f; // 你希望舵提前多少秒开始转动
 
     private float previousTurnSpeed;
 
     private void Update()
     {
-        // Guarda la velocidad de giro del barco para usarla en el próximo frame
+        // 保存船的转弯速度以供下一帧使用
         float turnSpeed = previousTurnSpeed;
         previousTurnSpeed = shipController.CurrentTurnSpeed;
 
-        // Espera durante el factor de anticipación antes de actualizar la velocidad de giro
+        // 等待
         StartCoroutine(WaitAndTurn(turnSpeed));
     }
 
@@ -26,10 +29,10 @@ public class RudderController : MonoBehaviour
     {
         yield return new WaitForSeconds(anticipationFactor);
 
-        // Calcula el ángulo del timón basado en la velocidad de giro del barco
-        float rudderAngle = Mathf.Clamp(turnSpeed, -1, 1) * -maxRudderAngle;
+        // 根据船的转弯速度计算舵角
+        float rudderAngle = Mathf.Clamp(turnSpeed, -1, 1) * (-maxRudderAngle);
 
-        // Gira el timón en su eje Y
+        // 沿 Y 轴旋转方向舵
         transform.localRotation = Quaternion.Euler(0, rudderAngle, 0);
     }
 }

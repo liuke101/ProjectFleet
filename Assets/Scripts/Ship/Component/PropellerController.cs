@@ -1,5 +1,8 @@
 using UnityEngine;
 
+/// <summary>
+/// 螺旋桨控制器
+/// </summary>
 public class PropellerController : MonoBehaviour
 {
 	[SerializeField] private PhysicsBasedShipController shipController;
@@ -11,11 +14,11 @@ public class PropellerController : MonoBehaviour
 	private void Update()
 	{
 
-		float speed = shipController.CurrentSpeed;
+		float speed = shipController.CurrentForwardSpeed;
 		float turnSpeed = shipController.CurrentTurnSpeed;
 		rotationSpeed = speed * PropellerSpeed;
 
-		// Si el barco está avanzando o girando hacia el lado definido, enciende la hélice
+		// 如果船正在向前移动或转向，则打开螺旋桨
 		if (speed > 0 || (isRightPropeller && turnSpeed > 0) || (!isRightPropeller && turnSpeed < 0))
 		{
 			if (turnSpeed > 0 && !isRightPropeller)
@@ -27,7 +30,7 @@ public class PropellerController : MonoBehaviour
 				RotatePropeller(speed);
 			}
 		}
-		// Si el barco va en reversa, invierte la rotación de la hélice
+		// 如果船反向行驶，螺旋桨就会反向旋转
 		else if (speed < 0)
 		{
 			RotatePropeller(-speed);
@@ -36,8 +39,7 @@ public class PropellerController : MonoBehaviour
 
 	private void RotatePropeller(float speed)
 	{
-		// Ajusta la velocidad de rotación según sea necesario
-
+		// 根据需要调整旋转速度
 		transform.Rotate(Vector3.forward, rotationSpeed * Time.deltaTime);
 	}
 }
