@@ -28,6 +28,7 @@ Material:
   - _CAPS_SCATTERING_ON
   - _CAUSTICSMODE_3D
   - _CAUSTICS_DIRECTION_ON
+  - _CAUSTICS_ON
   - _COLORMODE_COLORS
   - _DISPLACEMENTMODE_GERSTNER
   - _DYNAMIC_EFFECTS_ON
@@ -128,7 +129,7 @@ Material:
     - _CapsScatteringIntensity: 2
     - _CapsScatteringRangeMax: 2
     - _CapsScatteringRangeMin: 0
-    - _Caustics: 0
+    - _Caustics: 1
     - _CausticsAngleMask: 0
     - _CausticsDirectionMask: 1
     - _CausticsDistortion: 0.198
@@ -142,7 +143,7 @@ Material:
     - _Cull: 2
     - _CullMode: 2
     - _Cutoff: 0.5
-    - _DepthEnd: 11.01
+    - _DepthEnd: 0.1
     - _DepthStart: 0
     - _DispMask: 0
     - _DisplacementMode: 1

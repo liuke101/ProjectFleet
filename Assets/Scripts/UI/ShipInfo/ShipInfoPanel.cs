@@ -35,14 +35,12 @@ public class ShipInfoPanel : MonoBehaviour
             //实例化ShipInfo
             ShipInfoText info = Instantiate(ShipInfoTextPrefab, transform);
             info.ID = shipController.shipInfo.ID;
+            info.SetID(shipController.shipInfo.ID);
             ShipInfoTexts.Add(info);
             
             //加入VerticalLayout
             info.transform.SetParent(VerticalLayout.transform);
             
-            //设置船名UI
-            info.SetName(shipController.shipInfo.ShipName);
-                
             //监听速度变化
             shipController.OnChangeForwardVelocity.AddListener((speed) =>
             {

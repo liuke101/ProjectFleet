@@ -7,7 +7,6 @@ namespace Common
     public struct ShipInfo
     {
         public int ID;
-        public string ShipName;
         public Color HighlightColor;
     }
     

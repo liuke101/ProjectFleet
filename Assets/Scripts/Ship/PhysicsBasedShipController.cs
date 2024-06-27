@@ -225,7 +225,8 @@ public class PhysicsBasedShipController : MonoBehaviour
 	//注册船只信息
 	private void RegisterShipInfo()
 	{
-		shipInfo.ID = Random.Range(0, 100000);
+		shipInfo.ID = Random.Range(0, 100000); //BUG:ID注册顺序
+		
 		
 		//随机一个半透明色
 		shipInfo.HighlightColor = new Color(Random.Range(0.0f, 1.0f), Random.Range(0.0f, 1.0f), Random.Range(0.0f, 1.0f), 0.5f);

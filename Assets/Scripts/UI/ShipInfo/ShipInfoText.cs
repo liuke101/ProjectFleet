@@ -5,16 +5,16 @@ using UnityEngine.Serialization;
 public class ShipInfoText : MonoBehaviour
 {
     public int ID; //该ID和船的ID对应
-    public TMP_Text ShipName;
+    public TMP_Text ShipID;
     public TMP_Text ForwardSpeed;
     public TMP_Text TurnSpeed;
     
     
-    public void SetName(string shipName)
+    public void SetID(int id)
     {
-        if (ShipName != null)
+        if (ShipID != null)
         {
-            ShipName.text = $"姓名: {shipName}";
+            ShipID.text = $"Ship ID: {id}";
         }
     }
     

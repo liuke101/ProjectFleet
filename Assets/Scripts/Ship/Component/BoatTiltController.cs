@@ -10,7 +10,6 @@ public class BoatTiltController : MonoBehaviour
 	public Transform ShipRerefence;
 
 	[SerializeField] private float maxTiltAngle = 5f;
-	[SerializeField] private float Submarine_maxTiltAngle = 5f;
 
 	[SerializeField] private float tiltSmoothness = 1f;
 

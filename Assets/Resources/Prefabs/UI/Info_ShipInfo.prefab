@@ -147,7 +147,7 @@ GameObject:
   - component: {fileID: 3416017849227229662}
   - component: {fileID: 9044848296372711001}
   m_Layer: 5
-  m_Name: Text_ShipName
+  m_Name: Text_ShipID
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -200,7 +200,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\u8239\u540D\uFF1ANULL"
+  m_text: "Ship ID\uFF1ANULL"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: dc9009e5acfc35e409062db6635679aa, type: 2}
   m_sharedMaterial: {fileID: 4020735389106341677, guid: dc9009e5acfc35e409062db6635679aa,
@@ -524,6 +524,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ID: 0
-  ShipName: {fileID: 9044848296372711001}
+  ShipID: {fileID: 9044848296372711001}
   ForwardSpeed: {fileID: 5687223805512894998}
   TurnSpeed: {fileID: 5628185774156754554}

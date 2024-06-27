@@ -175,9 +175,8 @@ public class BoxSelectController : MonoSingleton<BoxSelectController>
                 ShipNavController navController = selectedShips[i].GetComponent<ShipNavController>();
                 if (navController)
                 {
+                    //Debug.DrawLine(TargetPositions[i], TargetPositions[i] + Vector3.up * 100, Color.red, 100.0f);
                     //船朝向阵列目标移动
-                    Debug.DrawLine(TargetPositions[i], TargetPositions[i] + Vector3.up * 100, Color.red, 100.0f);
-                    
                     navController.MoveTo(TargetPositions[i]);
                 }
             }
