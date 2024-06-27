@@ -18,10 +18,6 @@ public class PhysicsBasedShipController : MonoBehaviour
 	public ShipInfo shipInfo;
 	private HighlightEffect highlightEffect;
 	
-	[Header("类型")]
-	[HideInInspector] public bool IsSubmarine; //是否是潜艇
-	[HideInInspector] public bool IsSurfaceShip; //是否是水面舰艇
-
 	[Serializable]
 	public struct Velocity
 	{
@@ -37,27 +33,7 @@ public class PhysicsBasedShipController : MonoBehaviour
 		public Vector3 position;
 	}
 
-	[Header("状态")] 
-	public bool InSurface;
-	public bool BelowSurface;
-
 	#region 键位
-	[Header("控制键位")] 
-	[Header("潜艇操作")] 
-	[SerializeField] public KeyCode m_EmergeKey = KeyCode.E;
-
-	public KeyCode EmergeKey
-	{
-		get { return m_EmergeKey; }
-	}
-
-	[SerializeField] public KeyCode m_DiveKey = KeyCode.Q;
-
-	public KeyCode DiveKey
-	{
-		get { return m_DiveKey; }
-	}
-
 	[Header("方向操作")] 
 	[SerializeField] public KeyCode m_positiveForwardKey = KeyCode.W;
 
@@ -110,23 +86,6 @@ public class PhysicsBasedShipController : MonoBehaviour
 	};
 
 	[SerializeField] private int m_currentTurnVelocity_index = 2;
-
-	[Header("潜水")] 
-	[SerializeField] private ShipTransform[] m_ShipHeigt = new ShipTransform[]
-	{
-		new ShipTransform { Name = "Surface", Height = 0.0f },
-		new ShipTransform { Name = "Atack_Deep", Height = -5.0f },
-		new ShipTransform { Name = "Dive_Soft", Height = -8.0f },
-		new ShipTransform { Name = "Escape_Deep", Height = -15.0f },
-	};
-
-	//[SerializeField] private int currentHeightIndex = 0;
-	[SerializeField] public float targetHeight;
-	[SerializeField] private float heightChangeSpeed = 2.0f;
-	private float m_shipHeightMin;
-	private float m_shipHeightMax;
-	public int m_shipHeightIndex;
-
 
 	[Header("其他设置")] 
 	[SerializeField] private float m_forwardAcceleration = 2.0f; // units/s^2
@@ -189,9 +148,6 @@ public class PhysicsBasedShipController : MonoBehaviour
 
 		m_minTurn = m_turnVelocities.Min(x => x.Speed);
 		m_maxTurn = m_turnVelocities.Max(x => x.Speed);
-
-		m_shipHeightMin = m_ShipHeigt.Min(x => x.Height);
-		m_shipHeightMax = m_ShipHeigt.Max(x => x.Height);
 	}
 
 	private void Start()
@@ -208,19 +164,6 @@ public class PhysicsBasedShipController : MonoBehaviour
 
 		RegisterShipInfo();
 	}
-
-	public void GoUp()
-	{
-		if (m_shipHeightIndex < m_ShipHeigt.Length - 1)
-			m_shipHeightIndex = Math.Min(m_shipHeightIndex + 1, m_ShipHeigt.Length - 1);
-	}
-
-	public void GoDown()
-	{
-		if (m_shipHeightIndex > 0)
-			m_shipHeightIndex = Math.Max(m_shipHeightIndex - 1, 0);
-	}
-
 
 	public void MoveForward()
 	{
@@ -276,19 +219,6 @@ public class PhysicsBasedShipController : MonoBehaviour
 
 	private void Update()
 	{
-		//潜水控制
-		if (Input.GetKeyDown(EmergeKey) && IsSubmarine == true)
-		{
-			GoUp();
-		}
-		if (Input.GetKeyDown(DiveKey) && IsSubmarine == true)
-		{
-			GoDown();
-		}
-		float targetY = m_ShipHeigt[m_shipHeightIndex].Height;
-		float newY = Mathf.Lerp(transform.position.y, targetY, heightChangeSpeed * Time.deltaTime);
-		transform.position = new Vector3(transform.position.x, newY, transform.position.z);
-		
 		//方向控制
 		if (Input.GetKeyDown(m_positiveForwardKey))
 		{

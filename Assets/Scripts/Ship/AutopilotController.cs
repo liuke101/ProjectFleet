@@ -109,6 +109,7 @@ namespace Vbertz.PBSC
             {
                 shipController.MoveForward();
             }
+            //TODO:在身后就要倒车
 
             //UI
             TargetDistanceText.text = distanceToTarget.ToString("f0") + "meters To target";
