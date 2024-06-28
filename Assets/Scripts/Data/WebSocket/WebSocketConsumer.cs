@@ -1,9 +1,7 @@
 using System;
 using System.Collections;
-using System.Collections.Concurrent;
 using UnityEngine;
 using Best.WebSockets;
-using Best.WebSockets.Implementations;
 using JsonStruct;
 using LitJson;
 using UnityEngine.Events;
@@ -12,16 +10,18 @@ public class WebSocketConsumer : MonoSingleton<WebSocketConsumer>
 {
     [Header("WebSocket")]
     public string URL = "ws://ditto:ditto@10.151.1.109:8080/ws/2";
-    public string SubscribeMessage = "START-SEND-EVENTS?filter=like(thingId,\"edu.whut.cs.dw.sail:ship\")";
+    public string SubscribeMessage = "START-SEND-EVENTS?filter=like(thingId,\"edu.whut.cs.dw.sail:ship*\")";
     public string SubscribeACK = "START-SEND-EVENTS:ACK";
     private WebSocket WebSocket;
+    
+    
     
     // 连接协程
     private Coroutine SubscriptionCoroutine;
     
-    //[Header("事件")]
-    // 接收到爆源数据时进行广播
-    //public UnityEvent<ExplosiveSourceData> OnExplosiveSourceMessageReceived;
+    [Header("事件")]
+    // 接收到船只数据时进行广播
+    public UnityEvent<ShipWebSocketData> OnShipWebSocketMessageReceived;
     
     private void Start()
     {
@@ -35,6 +35,16 @@ public class WebSocketConsumer : MonoSingleton<WebSocketConsumer>
             WebSocket.OnClosed += OnWebSocketClosed;
             WebSocket.Open();
         }
+
+        // 测试
+        // 读取Resources文件夹下的TestData.json文件
+        // string jsonStr = Resources.Load<TextAsset>("Data/TestData").text;
+        // ShipWebSocketData data = JsonParser(jsonStr);
+        // if(data != null)
+        // {
+        //     OnShipWebSocketMessageReceived?.Invoke(data);
+        //     MessageBox.Instance.PrintShipWebSocketData(data);
+        // }
     }
 
     private void OnDestroy()
@@ -64,28 +74,27 @@ public class WebSocketConsumer : MonoSingleton<WebSocketConsumer>
     
     private void OnMessageReceived(WebSocket webSocket, string message)
     {
+        Debug.Log(message);
+        
         // 如果接收到ACK，停止协程
         if(message == SubscribeACK) 
         {
             MessageBox.Instance.PrintMessage("WebSocket 订阅成功, 关闭协程");
             StopCoroutine(SubscriptionCoroutine);
         }
-        
-        print(message);
-        // 如果是json爆源数据
-        // else if(message.Contains("ship")) 
-        // {
-        //     print(message);
-        //     //将json解析为项目所用数据结构
-        //     //ExplosiveSourceData data = JsonMapper.ToObject<ExplosiveSourceData>(JsonParser(message));
-        //      
-        //     //广播有效数据
-        //     // if(data != null)
-        //     // {
-        //     //     OnExplosiveSourceMessageReceived?.Invoke(data);
-        //     //     MessageBox.Instance.PrintExplosionData(data);
-        //     // }
-        // }
+        //如果是json 船只数据
+        else if(message.Contains("ship")) 
+        {
+            //将json解析为项目所用数据结构
+            ShipWebSocketData data = JsonParser(message);
+             
+            //广播有效数据
+             if(data != null)
+             {
+                 OnShipWebSocketMessageReceived?.Invoke(data);
+                 MessageBox.Instance.PrintShipWebSocketData(data);
+             }
+        }
     }
     
     private void OnWebSocketClosed(WebSocket webSocket, WebSocketStatusCodes code, string message)
@@ -102,24 +111,9 @@ public class WebSocketConsumer : MonoSingleton<WebSocketConsumer>
             MessageBox.Instance.PrintMessage("WebSocket 发生了错误" + code);
         }
     }
-    
-    // private void ProcessMessage()
-    // {
-    //     while (CustomerQueue.TryDequeue(out var message))
-    //     {
-    //          ExplosiveSourceData data = JsonMapper.ToObject<ExplosiveSourceData>(message);
-    //          
-    //          //广播有效数据
-    //          if(data != null)
-    //          {
-    //              OnExplosiveSourceMessageReceived?.Invoke(data);
-    //              MessageBox.Instance.PrintExplosionData(data);
-    //          }
-    //     }
-    // }
 
     //将json解析为项目所用格式
-    private string JsonParser(string message)
+    private ShipWebSocketData JsonParser(string message)
     {
         MessageBox.Instance.PrintMessage("解析Json数据");
         
@@ -127,21 +121,18 @@ public class WebSocketConsumer : MonoSingleton<WebSocketConsumer>
         JsonData jsonData = JsonMapper.ToObject(message);
 
         // 提取特定字段
-        string type = (string)jsonData["value"]["features"]["type"]["properties"]["value"];
-        double strikeLevel = (double)jsonData["value"]["features"]["strike_level"]["properties"]["value"];
-        double xCoordinate = (double)jsonData["value"]["features"]["x_coordinate"]["properties"]["value"];
-        double yCoordinate = (double)jsonData["value"]["features"]["y_coordinate"]["properties"]["value"];
-
-        // 创建新的 JSON 对象
-        JsonData result = new JsonData();
-        result["type"] = type;
-        result["strike_level"] = strikeLevel;
-        result["x_coordinate"] = xCoordinate;
-        result["y_coordinate"] = yCoordinate;
-
-        // 输出结果
-        string resultJson = result.ToJson();
-        return resultJson;
+        ShipWebSocketData WebSocketData = new ShipWebSocketData
+        {
+            speed = (double)jsonData["value"]["features"]["speed"]["properties"]["value"],
+            heading = (double)jsonData["value"]["features"]["heading"]["properties"]["value"],
+            x_coordinate = (double)jsonData["value"]["features"]["x_coordinate"]["properties"]["value"],
+            y_coordinate = (double)jsonData["value"]["features"]["y_coordinate"]["properties"]["value"],
+            ship_id = (int)jsonData["value"]["features"]["ship_id"]["properties"]["value"],
+            des_x_coordinate = (double)jsonData["value"]["features"]["des_x_coordinate"]["properties"]["value"],
+            des_y_coordinate = (double)jsonData["value"]["features"]["des_y_coordinate"]["properties"]["value"],
+        };
+        
+        return WebSocketData;
     }
     
     //Send发送订阅等待connecting

@@ -3,11 +3,23 @@ using System.Collections.Generic;
 using HighlightPlus;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.Serialization;
 
 //TODO:框选后给命令
 public class BoxSelectController : MonoSingleton<BoxSelectController>
 {
+    [Header("LineRenderer")]
     public LineRenderer lineRenderer;
+    public float lineDepth = 5.0f; //绘制线框的深度
+    public float lineWidth = 0.1f; //线框的宽度
+   
+    [FormerlySerializedAs("BoxSelectkey")] [Header("键位")] 
+    public KeyCode BoxSelectKey = KeyCode.Mouse2;
+    public KeyCode EndSelectKey = KeyCode.Escape;
+    public KeyCode MoveKey = KeyCode.Mouse0;
+    
+    
+    
     private bool isMouseDown = false;
     
     //鼠标框选的四个点
@@ -20,12 +32,9 @@ public class BoxSelectController : MonoSingleton<BoxSelectController>
     private Vector3 frontMousePos = Vector3.zero;
     
     //射线检测
-    RaycastHit hitInfo;
+    private RaycastHit hitInfo;
     private Vector3 rayBeginWorldPos;
     
-    public float lineDepth = 5.0f; //绘制线框的深度
-    public float lineWidth = 0.1f; //线框的宽度
-   
     [HideInInspector]public List<GameObject> selectedShips = new List<GameObject>();
     
     //船只间隔距离
@@ -33,7 +42,12 @@ public class BoxSelectController : MonoSingleton<BoxSelectController>
     
     [Header("事件")]
     public UnityEvent<List<GameObject>> OnSelected = new UnityEvent<List<GameObject>>();
-    
+
+    protected override void Awake()
+    {
+        lineRenderer = GetComponent<LineRenderer>();
+    }
+
     void Start()
     {
         if (lineRenderer)
@@ -46,7 +60,7 @@ public class BoxSelectController : MonoSingleton<BoxSelectController>
     void Update()
     {
         //鼠标中键框选
-        if (Input.GetMouseButtonDown(2))
+        if(Input.GetKeyDown(BoxSelectKey))
         {
             leftUpPoint = new Vector3(Input.mousePosition.x, Input.mousePosition.y, lineDepth);
             isMouseDown = true;
@@ -60,7 +74,7 @@ public class BoxSelectController : MonoSingleton<BoxSelectController>
                 rayBeginWorldPos = hitInfo.point;
             }
         }
-        else if (Input.GetMouseButtonUp(2)) //鼠标中键抬起
+        else if(Input.GetKeyUp(BoxSelectKey))  //鼠标中键抬起
         {
             isMouseDown = false;
             //将线框的点数设置为0,就不会绘制线框
@@ -76,38 +90,47 @@ public class BoxSelectController : MonoSingleton<BoxSelectController>
         //鼠标左键处于按下状态时，绘制线框
         if (isMouseDown)
         {
-            //屏幕坐标
-            rightUpPoint = new Vector3(rightDownPoint.x, leftUpPoint.y, lineDepth);
-            rightDownPoint = new Vector3(Input.mousePosition.x, Input.mousePosition.y, lineDepth);
-            leftDownPoint = new Vector3(leftUpPoint.x, rightDownPoint.y, lineDepth);
-
-            //屏幕坐标转换为世界坐标
-            lineRenderer.positionCount = 4;
-            if (Camera.main != null)
-            {
-                lineRenderer.SetPosition(0, Camera.main.ScreenToWorldPoint(leftUpPoint));
-                lineRenderer.SetPosition(1, Camera.main.ScreenToWorldPoint(rightUpPoint));
-                lineRenderer.SetPosition(2, Camera.main.ScreenToWorldPoint(rightDownPoint));
-                lineRenderer.SetPosition(3, Camera.main.ScreenToWorldPoint(leftDownPoint));
-            }
+            DrawBoxLine();
         }
         
         //左键点击移动
-        if (Input.GetMouseButtonDown(0))
+        if(Input.GetKeyDown(MoveKey))
         {
             MoveTo();
         }
+
+        
+        //清空上次的选择
+        if (Input.GetKeyDown(EndSelectKey))
+        {
+            foreach (var ship in selectedShips)
+            {
+                ship.GetComponent<HighlightEffect>().SetHighlighted(false);
+            }
+            selectedShips.Clear();
+        }
     }
-    
+
+    private void DrawBoxLine()
+    {
+        //屏幕坐标
+        rightUpPoint = new Vector3(rightDownPoint.x, leftUpPoint.y, lineDepth);
+        rightDownPoint = new Vector3(Input.mousePosition.x, Input.mousePosition.y, lineDepth);
+        leftDownPoint = new Vector3(leftUpPoint.x, rightDownPoint.y, lineDepth);
+
+        //屏幕坐标转换为世界坐标
+        lineRenderer.positionCount = 4;
+        if (Camera.main != null)
+        {
+            lineRenderer.SetPosition(0, Camera.main.ScreenToWorldPoint(leftUpPoint));
+            lineRenderer.SetPosition(1, Camera.main.ScreenToWorldPoint(rightUpPoint));
+            lineRenderer.SetPosition(2, Camera.main.ScreenToWorldPoint(rightDownPoint));
+            lineRenderer.SetPosition(3, Camera.main.ScreenToWorldPoint(leftDownPoint));
+        }
+    }
+
     private void BoxSelect()
     {
-        //清空上次的选择
-        foreach (var ship in selectedShips)
-        {
-            ship.GetComponent<HighlightEffect>().SetHighlighted(false);
-        }
-        selectedShips.Clear();
-        
         //框选对象
         if(Physics.Raycast(
                Camera.main.ScreenPointToRay(Input.mousePosition), 
@@ -127,11 +150,11 @@ public class BoxSelectController : MonoSingleton<BoxSelectController>
             Collider[] colliders = Physics.OverlapBox(Center, HalfExtents);
             
             //关闭对所有船只的控制，只恢复选中的船只
-            PhysicsBasedShipManager.Instance.DeactiveAllShips();
+            ShipManager.Instance.DeactiveAllShips();
             
             foreach (var tmp in colliders)
             {
-                PhysicsBasedShipController shipController = tmp.gameObject.GetComponent<PhysicsBasedShipController>();
+                ShipController shipController = tmp.gameObject.GetComponent<ShipController>();
                 if(shipController)
                 {
                  selectedShips.Add(tmp.gameObject);

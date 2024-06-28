@@ -5,7 +5,7 @@ using UnityEngine;
 /// </summary>
 public class PropellerController : MonoBehaviour
 {
-	[SerializeField] private PhysicsBasedShipController shipController;
+	[SerializeField] private ShipController shipController;
 
 	[SerializeField] private bool isRightPropeller;
 	public float PropellerSpeed = 0f;

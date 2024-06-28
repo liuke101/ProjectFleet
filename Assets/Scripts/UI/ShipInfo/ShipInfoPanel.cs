@@ -12,7 +12,7 @@ public class ShipInfoPanel : MonoBehaviour
 {
     private VerticalLayoutGroup VerticalLayout;
     
-    public List<PhysicsBasedShipController> ShipControllers;
+    public List<ShipController> ShipControllers;
     
     public ShipInfoText ShipInfoTextPrefab;
     private List<ShipInfoText> ShipInfoTexts = new List<ShipInfoText>();
@@ -21,37 +21,34 @@ public class ShipInfoPanel : MonoBehaviour
         VerticalLayout = GetComponent<VerticalLayoutGroup>();
     }
 
-    private void Start()
-    {
-        InitShipInfos();
-    }
     
-    private void InitShipInfos()
+    //OnShipInfoRegister事件回调
+    public void InitShipInfo(ShipController shipController)
     {
-        ShipControllers = new List<PhysicsBasedShipController>(GameObject.FindObjectsOfType<PhysicsBasedShipController>());
+        if (ShipControllers.Contains(shipController)) return;
+            
+        //收集
+        ShipControllers.Add(shipController);
         
-        foreach (var shipController in ShipControllers)
+        //实例化ShipInfo
+        ShipInfoText info = Instantiate(ShipInfoTextPrefab, transform);
+        info.ID = shipController.shipInfo.ID;
+        info.SetID(shipController.shipInfo.ID);
+        ShipInfoTexts.Add(info);
+        
+        //加入VerticalLayout
+        info.transform.SetParent(VerticalLayout.transform);
+        
+        //监听速度变化
+        shipController.OnChangeForwardVelocity.AddListener((speed) =>
         {
-            //实例化ShipInfo
-            ShipInfoText info = Instantiate(ShipInfoTextPrefab, transform);
-            info.ID = shipController.shipInfo.ID;
-            info.SetID(shipController.shipInfo.ID);
-            ShipInfoTexts.Add(info);
+            info.SetForwardSpeed(speed);
+        });
             
-            //加入VerticalLayout
-            info.transform.SetParent(VerticalLayout.transform);
-            
-            //监听速度变化
-            shipController.OnChangeForwardVelocity.AddListener((speed) =>
-            {
-                info.SetForwardSpeed(speed);
-            });
-                
-            shipController.OnChangeTurnVelocity.AddListener((speed) =>
-            {
-                info.SetTurnSpeed(speed);
-            });
-        }
+        shipController.OnChangeTurnVelocity.AddListener((speed) =>
+        {
+            info.SetTurnSpeed(speed);
+        });
     }
     
     public void UpdateSelectedShipInfos(List<GameObject> ships)
@@ -66,7 +63,7 @@ public class ShipInfoPanel : MonoBehaviour
         //更新选中船只对应ID的颜色
         foreach (var ship in ships)
         {
-            PhysicsBasedShipController shipController = ship.GetComponent<PhysicsBasedShipController>();
+            ShipController shipController = ship.GetComponent<ShipController>();
             if (shipController)
             {
                 ShipInfoText info = GetShipInfoText(shipController.shipInfo.ID);

@@ -9,6 +9,4 @@ namespace Common
         public int ID;
         public Color HighlightColor;
     }
-    
-    
 }

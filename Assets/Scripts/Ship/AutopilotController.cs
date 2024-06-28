@@ -4,13 +4,11 @@ using UnityEngine.AI;
 using UnityEngine.UI;
 
 
+//legacy
 public class AutopilotController : MonoBehaviour
 {
     public Text TargetDistanceText;
-    [SerializeField] private PhysicsBasedShipController shipController;
-
-    //NavMesh
-    private NavMeshAgent Agent;
+    [SerializeField] private ShipController shipController;
 
     //目标
     [SerializeField] public Vector3 TargetPositon;
@@ -32,7 +30,6 @@ public class AutopilotController : MonoBehaviour
 
     private void Awake()
     {
-        Agent = GetComponent<NavMeshAgent>();
     }
 
     private void Start()
@@ -54,13 +51,6 @@ public class AutopilotController : MonoBehaviour
          }
     }
 
-    public void AIMove(Vector3 pos)
-    {
-        if (isAutopilotActive)
-        {
-            Agent.SetDestination(pos);
-        }
-    }
     
     public void MoveTest()
     {

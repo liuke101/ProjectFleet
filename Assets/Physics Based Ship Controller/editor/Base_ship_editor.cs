@@ -4,7 +4,7 @@ using UnityEditor;
 namespace Vbertz.PBSC
 {
 
-	[CustomEditor(typeof(PhysicsBasedShipController))]
+	[CustomEditor(typeof(ShipController))]
 	public class ShipController_editor : Editor
 	{
 		public Texture2D Header; // Asegúrate de que esta imagen esté en tu carpeta de Resources

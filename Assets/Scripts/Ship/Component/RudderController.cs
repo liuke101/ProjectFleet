@@ -7,7 +7,7 @@ using UnityEngine;
 /// </summary>
 public class RudderController : MonoBehaviour
 {
-    [SerializeField] public PhysicsBasedShipController shipController;
+    [SerializeField] public ShipController shipController;
     [SerializeField] private float maxRudderAngle = 30f; // 舵可以转动的最大角度
 
     [SerializeField]

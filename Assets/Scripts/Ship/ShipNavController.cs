@@ -7,12 +7,12 @@ using UnityEngine.AI;
 /// </summary>
 public class ShipNavController : MonoBehaviour
 {
-    private PhysicsBasedShipController ShipController;
-    private NavMeshAgent Agent;
+    private ShipController ShipController;
+    public NavMeshAgent Agent;
 
     private void Awake()
     {
-        ShipController = GetComponent<PhysicsBasedShipController>();
+        ShipController = GetComponent<ShipController>();
         Agent = GetComponent<NavMeshAgent>();
     }
 
@@ -32,11 +32,17 @@ public class ShipNavController : MonoBehaviour
         {
             
         }
-        
     }
 
     public void MoveTo(Vector3 pos)
     {
         Agent?.SetDestination(pos);
+    }
+
+    public void TurnTo(float angle)
+    {
+        //计算一个位置，该位置与forward的夹角为angle，距离为不可达距离，模拟转向
+        Vector3 targetPos = transform.position + Quaternion.Euler(0, angle, 0) * transform.forward * 100000;
+        MoveTo(targetPos);
     }
 }

@@ -1,12 +1,11 @@
 using UnityEngine;
-using Vbertz.PBSC;
 
 /// <summary>
 /// 倾斜控制器
 /// </summary>
 public class BoatTiltController : MonoBehaviour
 {
-	[SerializeField] private PhysicsBasedShipController shipController;
+	[SerializeField] private ShipController shipController;
 	public Transform ShipRerefence;
 
 	[SerializeField] private float maxTiltAngle = 5f;
