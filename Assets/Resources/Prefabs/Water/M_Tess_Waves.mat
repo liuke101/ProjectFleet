@@ -34,7 +34,7 @@ Material:
   - _DYNAMIC_EFFECTS_ON
   - _FOAM_ON
   - _FOAM_WHITECAPS_ON
-  - _NORMALSMODE_DUAL
+  - _NORMALSMODE_FLOWMAP
   - _REFLECTIONMODE_REALTIME
   - _SCATTERING_ON
   - _WORLD_UV
@@ -143,11 +143,11 @@ Material:
     - _Cull: 2
     - _CullMode: 2
     - _Cutoff: 0.5
-    - _DepthEnd: 0.1
+    - _DepthEnd: 10
     - _DepthStart: 0
     - _DispMask: 0
     - _DisplacementMode: 1
-    - _Distortion: 32
+    - _Distortion: 0
     - _DistortionFar: 32
     - _DistortionNear: 64
     - _DoubleSided: 0
@@ -157,7 +157,7 @@ Material:
     - _DynamicFoam: 1
     - _DynamicNormal: 4
     - _EdgeFade: 0
-    - _EdgeSize: 0.12
+    - _EdgeSize: 0.91
     - _EnvironmentReflections: 1
     - _FlowIntensity: 0.2
     - _FlowSpeed: 10
@@ -187,10 +187,10 @@ Material:
     - _NormalFadeScale: 0.329
     - _NormalFar: 0
     - _NormalFarDistance: 128
-    - _NormalMapAIntensity: 0.468
-    - _NormalMapBIntensity: 0.468
+    - _NormalMapAIntensity: 0.436
+    - _NormalMapBIntensity: 0
     - _NormalMapFarIntensity: 1
-    - _NormalsMode: 1
+    - _NormalsMode: 2
     - _OcclusionStrength: 1
     - _Orthographic: 0
     - _QueueOffset: 0
@@ -207,7 +207,7 @@ Material:
     - _ScatteringIntensity: 0.75
     - _ScatteringRangeMax: 2
     - _ScatteringRangeMin: 0.25580916
-    - _Smoothness: 0.839
+    - _Smoothness: 0.8
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
     - _SpeedMul: 0
