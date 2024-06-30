@@ -79,6 +79,7 @@ public class ShipController : MonoBehaviour
 	
 	private void Awake()
 	{
+		//enabled = false; //默认在prefab中关闭，通过框选激活
 		highlightEffect = GetComponent<HighlightEffect>();
 		
 		m_rigidbody = GetComponent<Rigidbody>();

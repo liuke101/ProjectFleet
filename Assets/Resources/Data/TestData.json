@@ -24,7 +24,7 @@
        "features": {
            "speed": {
                "properties": {
-                   "value": 0.0
+                   "value": 100.0
                }
            },
            "heading": {
@@ -49,12 +49,12 @@
            },
            "des_x_coordinate": {
                "properties": {
-                   "value": -100.0
+                   "value": 99999.0
                }
            },
            "des_y_coordinate": {
                "properties": {
-                   "value": 100.0
+                   "value": 99999.0
                }
            }
        }

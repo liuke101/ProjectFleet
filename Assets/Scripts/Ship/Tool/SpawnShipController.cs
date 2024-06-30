@@ -34,11 +34,11 @@ public class SpawnShipController : MonoSingleton<SpawnShipController>
             ShipNavController shipNavController = Ship.GetComponent<ShipNavController>();
             if (shipNavController)
             {
-                //获取速度
-                shipNavController.Agent.speed = (float)data.speed;
+                //设置速度
+                shipNavController.SetNavSpeed((float)data.speed);
             
                 //规定99999时，为转向操作（目的地数据无效）
-                if (data.des_x_coordinate >= 99990.0 && data.des_y_coordinate >= 99990.0)
+                if (data.des_x_coordinate >= 90000.0 && data.des_y_coordinate >= 90000.0)
                 {
                     shipNavController.TurnTo((float)data.heading);
                 }

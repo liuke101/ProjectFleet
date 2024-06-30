@@ -36,15 +36,20 @@ public class WebSocketConsumer : MonoSingleton<WebSocketConsumer>
             WebSocket.Open();
         }
 
-        // 测试
+        Test();
+    }
+
+    private void Test()
+    {
+        // 本地测试
         // 读取Resources文件夹下的TestData.json文件
-        // string jsonStr = Resources.Load<TextAsset>("Data/TestData").text;
-        // ShipWebSocketData data = JsonParser(jsonStr);
-        // if(data != null)
-        // {
-        //     OnShipWebSocketMessageReceived?.Invoke(data);
-        //     MessageBox.Instance.PrintShipWebSocketData(data);
-        // }
+        string jsonStr = Resources.Load<TextAsset>("Data/TestData").text;
+        ShipWebSocketData data = JsonParser(jsonStr);
+        if(data != null)
+        {
+            OnShipWebSocketMessageReceived?.Invoke(data);
+            MessageBox.Instance.PrintShipWebSocketData(data);
+        }
     }
 
     private void OnDestroy()

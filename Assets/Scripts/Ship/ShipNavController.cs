@@ -41,8 +41,17 @@ public class ShipNavController : MonoBehaviour
 
     public void TurnTo(float angle)
     {
-        //计算一个位置，该位置与forward的夹角为angle，距离为不可达距离，模拟转向
-        Vector3 targetPos = transform.position + Quaternion.Euler(0, angle, 0) * transform.forward * 100000;
+        //计算一个位置，该位置与forward的夹角为angle，距离为不可达距离，模拟转向（因为navmesh没有很大，所以可能超过范围导致不移动);
+        
+        Vector3 targetPos = transform.position + Quaternion.Euler(0, angle, 0) * transform.forward * 200;
+        
+        //也可以先转向再move
+        
         MoveTo(targetPos);
+    }
+    
+    public void SetNavSpeed(float speed)
+    {
+        Agent.speed = speed;
     }
 }

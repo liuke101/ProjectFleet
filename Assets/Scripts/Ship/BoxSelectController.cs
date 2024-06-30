@@ -18,8 +18,6 @@ public class BoxSelectController : MonoSingleton<BoxSelectController>
     public KeyCode EndSelectKey = KeyCode.Escape;
     public KeyCode MoveKey = KeyCode.Mouse0;
     
-    
-    
     private bool isMouseDown = false;
     
     //鼠标框选的四个点
@@ -157,17 +155,19 @@ public class BoxSelectController : MonoSingleton<BoxSelectController>
                 ShipController shipController = tmp.gameObject.GetComponent<ShipController>();
                 if(shipController)
                 {
-                 selectedShips.Add(tmp.gameObject);
-                 
-                 //恢复控制
-                 shipController.enabled = true;
-                 
-                 //高亮
-                 HighlightEffect HighlightShip = tmp.gameObject.GetComponent<HighlightEffect>();
-                 if(HighlightShip)
-                 {
+                    if(selectedShips.Contains(tmp.gameObject)) continue;
+                    
+                    selectedShips.Add(tmp.gameObject);
+
+                    //恢复控制
+                    shipController.enabled = true;
+
+                    //高亮
+                    HighlightEffect HighlightShip = tmp.gameObject.GetComponent<HighlightEffect>();
+                    if(HighlightShip)
+                    {
                      HighlightShip.SetHighlighted(true);
-                 }
+                    }
                 }
             }
 
