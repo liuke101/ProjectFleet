@@ -1,0 +1,122 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &2100000
+Material:
+  serializedVersion: 6
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: MMP Pyramidal Simple
+  m_Shader: {fileID: 4800000, guid: c753a0ebd351d55489ddbaaf4590ef51, type: 3}
+  m_ShaderKeywords: _GLOSSYREFLECTIONS_OFF _NORMALMAP _SPECULARHIGHLIGHTS_OFF
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 1
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _BaseMap:
+        m_Texture: {fileID: 2800000, guid: 2007180fe82bf504da278d10005b452a, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _ColorMap:
+        m_Texture: {fileID: 2800000, guid: b891759b57a168a45b2b905579da701b, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Detail:
+        m_Texture: {fileID: 2800000, guid: 300b5709d303aab4e9dda05e73bf604e, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Dirt:
+        m_Texture: {fileID: 2800000, guid: 11383cfd2d9935b449edb8403256c675, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Grass:
+        m_Texture: {fileID: 2800000, guid: 402ab12476b67fb449f1152cecddf5e1, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Rock:
+        m_Texture: {fileID: 2800000, guid: 300b5709d303aab4e9dda05e73bf604e, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Sediment:
+        m_Texture: {fileID: 2800000, guid: 79354c7b321d7fc4c92a244c9e6a15e1, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SplatMap:
+        m_Texture: {fileID: 2800000, guid: 57deb98d2166b064195e68ca9c623cd4, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Floats:
+    - _BumpScale: 1
+    - _Cutoff: 0.5
+    - _DetailAO: 0.5
+    - _DetailColor: 0.5
+    - _DetailNormal: 0.5
+    - _DetailNormalMapScale: 1
+    - _DetailScale: 10
+    - _DirtScale: 15
+    - _DirtSlopeMax: 0.55
+    - _DirtSlopeMin: 0.45
+    - _DstBlend: 0
+    - _FlowIntensity: 0.6
+    - _GlossMapScale: 1
+    - _Glossiness: 0
+    - _GlossyReflections: 0
+    - _GradientScale: 6.8
+    - _GrassHeightMax: 59.8
+    - _GrassHeightMin: 17.4
+    - _GrassHeightMod: 18.2
+    - _GrassScale: 30
+    - _GrassSlopeMax: 0.7
+    - _GrassSlopeMin: 0.6
+    - _HeightMax: 0
+    - _HeightMin: 1
+    - _Metallic: 0
+    - _Mode: 0
+    - _OcclusionIntensity: 0.9
+    - _OcclusionIntesity: 1
+    - _OcclusionStrength: 1
+    - _OcclusionToAlbedo: 0.4
+    - _Parallax: 0.02
+    - _RockScale: 12
+    - _SedimentDistortion: 10
+    - _SedimentIntensity: 1
+    - _SedimentScale: 20
+    - _SmoothnessTextureChannel: 0
+    - _SnowHeightMax: 92.5
+    - _SnowHeightMin: 85
+    - _SnowHeightMod: 38.79
+    - _SnowSlopeMax: 0.7
+    - _SnowSlopeMin: 0.45
+    - _SpecularHighlights: 0
+    - _SrcBlend: 1
+    - _SteepnessMax: 0.876
+    - _SteepnessMin: 0.741
+    - _Tiling: 0.1
+    - _UVSec: 0
+    - _ZWrite: 1
+    m_Colors:
+    - _CliffColor: {r: 1, g: 1, b: 1, a: 1}
+    - _Color: {r: 1, g: 1, b: 1, a: 1}
+    - _ColorDirt: {r: 0.3897059, g: 0.36701918, b: 0.27222103, a: 1}
+    - _ColorGrass: {r: 0.26245075, g: 0.4705882, b: 0.16262974, a: 1}
+    - _ColorRock: {r: 0.5294118, g: 0.5184585, b: 0.48269898, a: 1}
+    - _DirtColor: {r: 0.609, g: 0.5062176, b: 0.41290203, a: 1}
+    - _DirtColorBright: {r: 0.75735295, g: 0.7293939, b: 0.67939013, a: 1}
+    - _DirtColorDark: {r: 0.32099995, g: 0.28659758, b: 0.24973789, a: 1}
+    - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
+    - _FlowColor: {r: 0.04284987, g: 0.095588185, b: 0, a: 1}
+    - _GrassColor: {r: 1, g: 1, b: 1, a: 1}
+    - _GrassColorBright: {r: 0.5791982, g: 0.685, b: 0.33633497, a: 1}
+    - _GrassColorDark: {r: 0.08184951, g: 0.19599983, b: 0.053311937, a: 1}
+    - _RockColor: {r: 1, g: 1, b: 1, a: 1}
+    - _RockColorBright: {r: 0.9191176, g: 0.9191176, b: 0.9191176, a: 1}
+    - _RockColorDark: {r: 0.27199998, g: 0.21002144, b: 0.14361596, a: 1}
+    - _SnowColor: {r: 0.7011373, g: 0.7232693, b: 0.74509805, a: 1}
+    - _SpecColor: {r: 0, g: 0, b: 0, a: 0}
+  m_BuildTextureStacks: []

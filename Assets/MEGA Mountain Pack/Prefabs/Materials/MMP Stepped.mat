@@ -1,0 +1,115 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &2100000
+Material:
+  serializedVersion: 6
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: MMP Stepped
+  m_Shader: {fileID: 4800000, guid: ef02cbf914c47664db033abde56bf7e1, type: 3}
+  m_ShaderKeywords: _GLOSSYREFLECTIONS_OFF _INCLUDESNOW_ON _NORMALMAP _SPECULARHIGHLIGHTS_OFF
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 1
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _BaseMap:
+        m_Texture: {fileID: 2800000, guid: d0b61dd0b1a9e9142a6bcaa54bb30735, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Dirt:
+        m_Texture: {fileID: 2800000, guid: 11383cfd2d9935b449edb8403256c675, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Grass:
+        m_Texture: {fileID: 2800000, guid: 402ab12476b67fb449f1152cecddf5e1, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Rock:
+        m_Texture: {fileID: 2800000, guid: 300b5709d303aab4e9dda05e73bf604e, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Sediment:
+        m_Texture: {fileID: 2800000, guid: 79354c7b321d7fc4c92a244c9e6a15e1, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SplatMap:
+        m_Texture: {fileID: 2800000, guid: f0841a31a864143428da08bfc9fedcb6, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Floats:
+    - _BumpScale: 1
+    - _Cutoff: 0.5
+    - _DetailAO: 0.75
+    - _DetailColor: 0.75
+    - _DetailNormal: 0.5
+    - _DetailNormalMapScale: 1
+    - _DetailScale: 4
+    - _DirtScale: 7
+    - _DirtSlopeMax: 0.55
+    - _DirtSlopeMin: 0.45
+    - _DstBlend: 0
+    - _FlowIntensity: 0.419
+    - _GlossMapScale: 1
+    - _Glossiness: 0.5
+    - _GlossyReflections: 0
+    - _GradientScale: 0.1
+    - _GrassHeightMax: 42.5
+    - _GrassHeightMin: 27.5
+    - _GrassHeightMod: 50
+    - _GrassScale: 30
+    - _GrassSlopeMax: 0.7
+    - _GrassSlopeMin: 0.6
+    - _HeightMax: 600
+    - _HeightMin: 500
+    - _IncludeSnow: 1
+    - _Metallic: 0
+    - _Mode: 0
+    - _OcclusionIntensity: 0.9
+    - _OcclusionIntesity: 0.5
+    - _OcclusionStrength: 1
+    - _OcclusionToAlbedo: 0.4
+    - _Parallax: 0.02
+    - _RockScale: 5
+    - _SedimentDistortion: 3
+    - _SedimentIntensity: 0.6
+    - _SedimentScale: 15.65
+    - _SmoothnessTextureChannel: 0
+    - _SnowHeightMax: 92.5
+    - _SnowHeightMin: 85
+    - _SnowHeightMod: 36.25
+    - _SnowSlopeMax: 0.7
+    - _SnowSlopeMin: 0.45
+    - _SpecularHighlights: 0
+    - _SrcBlend: 1
+    - _SteepnessMax: 0.818
+    - _SteepnessMin: 0.468
+    - _Tiling: 0.1
+    - _UVSec: 0
+    - _ZWrite: 1
+    m_Colors:
+    - _CliffColor: {r: 0, g: 0, b: 0, a: 1}
+    - _Color: {r: 1, g: 1, b: 1, a: 1}
+    - _ColorDirt: {r: 1, g: 1, b: 1, a: 1}
+    - _ColorGrass: {r: 1, g: 1, b: 1, a: 1}
+    - _ColorRock: {r: 1, g: 1, b: 1, a: 1}
+    - _DirtColor: {r: 1, g: 1, b: 1, a: 1}
+    - _DirtColorBright: {r: 0.75735295, g: 0.7293939, b: 0.67939013, a: 1}
+    - _DirtColorDark: {r: 0.32099983, g: 0.28659746, b: 0.24973777, a: 1}
+    - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
+    - _FlowColor: {r: 0.75735295, g: 0.7220342, b: 0.646022, a: 1}
+    - _GrassColor: {r: 1, g: 1, b: 1, a: 1}
+    - _GrassColorBright: {r: 0.785, g: 0.6861333, b: 0.47335494, a: 1}
+    - _GrassColorDark: {r: 0.19599977, g: 0.10948945, b: 0, a: 1}
+    - _RockColor: {r: 1, g: 1, b: 1, a: 1}
+    - _RockColorBright: {r: 0.797, g: 0.78116995, b: 0.739616, a: 1}
+    - _RockColorDark: {r: 0.25899985, g: 0.13396528, b: 0, a: 1}
+    - _SnowColor: {r: 0.547, g: 0.5210456, b: 0.45291597, a: 1}
+    - _SpecColor: {r: 0, g: 0, b: 0, a: 0}
+  m_BuildTextureStacks: []

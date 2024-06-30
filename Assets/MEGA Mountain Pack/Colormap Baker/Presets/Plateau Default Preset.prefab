@@ -1,0 +1,82 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &8575529825568353554
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2306048284273810488}
+  - component: {fileID: 4025027636784071387}
+  m_Layer: 0
+  m_Name: Plateau Default Preset
+  m_TagString: EditorOnly
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2306048284273810488
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8575529825568353554}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -1600, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4025027636784071387
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8575529825568353554}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9403f8725aa14e645b275acac786047f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  textureName: Plateau_ColorMap
+  defaultDirectory: Assets/MEGA Mountain Pack/Colormap Baker/Baked Colormaps
+  resolution: 2048
+  includeSnow: 0
+  materials:
+  - {fileID: 2100000, guid: 2d042a977d5c6554aa1c48f551c666ed, type: 2}
+  isPreset: 1
+  sourceMat: {fileID: 2100000, guid: 344b9103022c90940b6411bfe4bd2e1e, type: 2}
+  _RockColorBright: {r: 0.8399999, g: 0.78768826, b: 0.73164, a: 1}
+  _RockColorDark: {r: 0.47799987, g: 0.30963826, b: 0.15678385, a: 1}
+  _DirtColorBright: {r: 0.632, g: 0.54915136, b: 0.44429594, a: 1}
+  _DirtColorDark: {r: 0.2399998, g: 0.084413685, b: 0, a: 1}
+  _GrassColorBright: {r: 0.676337, g: 0.709, b: 0.47219384, a: 1}
+  _GrassColorDark: {r: 0.06904127, g: 0.14099988, b: 0, a: 1}
+  _FlowColor: {r: 0.7619999, g: 0.58579725, b: 0.42582345, a: 1}
+  _SnowColor: {r: 0.49699998, g: 0.47557735, b: 0.40563956, a: 1}
+  _RockScale: 13
+  _DirtScale: 20
+  _GrassScale: 30
+  _SedimentScale: 13
+  _OcclusionToAlbedo: 0.4
+  _OcclusionIntensity: 0.9
+  _SedimentIntensity: 0.75
+  _SedimentDistortion: 3.5
+  _DirtSlopeMin: 0.684
+  _DirtSlopeMax: 0.805
+  _GrassSlopeMin: 0
+  _GrassSlopeMax: 1
+  _GrassHeightMin: 12.5
+  _GrassHeightMax: 22.5
+  _GrassHeightMod: -5.8
+  _FlowIntensity: 0.71
+  _SnowSlopeMin: 0.6544118
+  _SnowSlopeMax: 0.90441203
+  _SnowHeightMin: 85
+  _SnowHeightMax: 92.5
+  _SnowHeightMod: 79.31

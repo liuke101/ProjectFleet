@@ -1,0 +1,4 @@
+After importing you may need to convert the included shaders for your chosen renderpipeline (Built-In, URP, HDRP). 
+To do so go to Window/MEGA Mountain Pack/Convert Shaders to Renderpipeline and select the according render pipeline.
+
+Support e-mail address: becoming.at@gmail.com
