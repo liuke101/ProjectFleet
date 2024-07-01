@@ -1,10 +1,15 @@
 ﻿using System;
 using JsonStruct;
 using UnityEngine;
+using UnityEngine.Events;
+using UnityEngine.Serialization;
 
 public class SpawnShipController : MonoSingleton<SpawnShipController>
 {
     public GameObject ShipPrefab;
+    
+    public UnityEvent<float> OnAgentSpeedChanged;
+    public UnityEvent<float> OnAgentAngularSpeedChanged;
     
     public void Start()
     {
@@ -37,6 +42,10 @@ public class SpawnShipController : MonoSingleton<SpawnShipController>
                 //设置速度
                 shipNavController.SetNavSpeed((float)data.speed);
             
+                //广播速度信息到UI
+                OnAgentSpeedChanged?.Invoke((float)data.speed);
+                OnAgentAngularSpeedChanged?.Invoke(shipNavController.Agent.angularSpeed); //角速度 目前是写死的，在NavMeshAgent中设置
+                 
                 //规定99999时，为转向操作（目的地数据无效）
                 if (data.des_x_coordinate >= 90000.0 && data.des_y_coordinate >= 90000.0)
                 {

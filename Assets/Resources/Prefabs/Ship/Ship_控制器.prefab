@@ -12609,8 +12609,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 2, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Size: {x: 4.1686134, y: 3.7088141, z: 14.4870205}
+  m_Center: {x: -0.12449026, y: 0.9607945, z: -0.15703678}
 --- !u!54 &124821596267877333
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -12637,7 +12637,7 @@ Rigidbody:
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 4
-  m_CollisionDetection: 0
+  m_CollisionDetection: 2
 --- !u!114 &2120198303020389799
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12653,6 +12653,7 @@ MonoBehaviour:
   shipInfo:
     ID: 0
     HighlightColor: {r: 0, g: 0, b: 0, a: 0}
+  FocusCamera: {fileID: 8909791076174247176}
   PositiveForwardKey: 119
   NegativeForwardKey: 115
   PositiveTurnKey: 100
@@ -12893,7 +12894,7 @@ NavMeshAgent:
   m_Speed: 30
   m_Acceleration: 2
   avoidancePriority: 50
-  m_AngularSpeed: 20
+  m_AngularSpeed: 10
   m_StoppingDistance: 0
   m_AutoTraverseOffMeshLink: 1
   m_AutoBraking: 1
@@ -12915,6 +12916,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Agent: {fileID: 0}
+  PreventCollisionRayCastDistance: 50
 --- !u!1 &3940220868136418779
 GameObject:
   m_ObjectHideFlags: 0

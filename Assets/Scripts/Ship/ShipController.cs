@@ -17,6 +17,7 @@ public class ShipController : MonoBehaviour
 	[Header("船体信息")] 
 	public ShipInfo shipInfo;
 	private HighlightEffect highlightEffect;
+	public GameObject FocusCamera;
 
 	[Header("方向操作")] 
 	public KeyCode PositiveForwardKey = KeyCode.W;
@@ -99,7 +100,11 @@ public class ShipController : MonoBehaviour
 			m_currentTurnIndicatorValue = m_turnSpeedIndicator.value;
 		}
 
-		//RegisterShipInfo();
+		//收集相机，用于切换相机
+		if (FocusCamera)
+		{
+			CameraManager.Instance.SceneCameras.Add(FocusCamera);
+		}
 	}
 
 	private void Update()
@@ -165,7 +170,14 @@ public class ShipController : MonoBehaviour
 
 		m_rigidbody.velocity = transform.forward * CurrentForwardSpeed;
 	}
-	
+
+	private void OnCollisionEnter(Collision other)
+	{
+		if (other.gameObject.CompareTag("Mountain"))
+		{
+			StopShip();
+		}
+	}
 
 	public void MoveForward()
 	{
@@ -219,6 +231,7 @@ public class ShipController : MonoBehaviour
 		CurrentTurnVelocityIndex = 2;
 		m_currentForwardIndicatorValue = 0.0f;
 		m_currentTurnIndicatorValue = 0.0f;
+		m_rigidbody.velocity = Vector3.zero;
 		OnChangeForwardVelocity.Invoke(ForwardVelocities[CurrentForwardVelocityIndex].Speed);
 		OnChangeTurnVelocity.Invoke(TurnVelocities[CurrentTurnVelocityIndex].Speed);
 	}

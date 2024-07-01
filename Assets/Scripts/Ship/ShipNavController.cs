@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.Events;
 
 /// <summary>
 /// 船导航控制器
@@ -9,7 +11,12 @@ public class ShipNavController : MonoBehaviour
 {
     private ShipController ShipController;
     public NavMeshAgent Agent;
+    
+    private RaycastHit MountainHit;
+    private bool isHitMountain = false; //是否检测到山
+    public float PreventCollisionRayCastDistance = 50.0f; //预防碰撞检测距离
 
+    
     private void Awake()
     {
         ShipController = GetComponent<ShipController>();
@@ -26,32 +33,68 @@ public class ShipNavController : MonoBehaviour
         // float angleDifference = Mathf.DeltaAngle(transform.eulerAngles.y, targetAngle);
         //print(angleDifference);
         
-        
-        //如果到达目标就停止
-        if (Agent.isStopped)
-        {
-            
-        }
+        //防止与山体碰撞
+        PreventCollisionWithMountains();
     }
 
     public void MoveTo(Vector3 pos)
     {
-        Agent?.SetDestination(pos);
+        if (Agent != null)
+        {
+            Agent.SetDestination(pos);
+            
+        }
     }
 
     public void TurnTo(float angle)
     {
-        //计算一个位置，该位置与forward的夹角为angle，距离为不可达距离，模拟转向（因为navmesh没有很大，所以可能超过范围导致不移动);
+        //绕Y轴逐渐旋转
+        //transform.rotation *= Quaternion.Euler(0, angle, 0);
         
+        
+        //计算一个位置，该位置与forward的夹角为angle，距离为不可达距离，模拟转向（因为navmesh没有很大，所以可能超过范围导致不移动);
         Vector3 targetPos = transform.position + Quaternion.Euler(0, angle, 0) * transform.forward * 200;
         
-        //也可以先转向再move
-        
         MoveTo(targetPos);
+    }
+    
+    private void Stop()
+    {
+        Agent.isStopped = true;
+        Agent.velocity = Vector3.zero;
+        Agent.angularSpeed = 0;
     }
     
     public void SetNavSpeed(float speed)
     {
         Agent.speed = speed;
+    }
+    
+    private void PreventCollisionWithMountains()
+    {
+        Debug.DrawLine(transform.position, transform.position + transform.forward * PreventCollisionRayCastDistance, Color.red);
+        
+        //检测是否有山，有则避开
+        if (isHitMountain == false)
+        {
+            if (Physics.Raycast(transform.position, transform.forward, out MountainHit, PreventCollisionRayCastDistance))
+            {
+                if (MountainHit.collider.gameObject.CompareTag("Mountain"))
+                {
+                    //后退一段距离
+                    MoveTo(transform.position - transform.forward * 30);
+                    isHitMountain = true;
+                }
+            }
+        }
+
+        //如果检测不到山了，就重新开始检测
+        if (isHitMountain)
+        {
+            if (!Physics.Raycast(transform.position, transform.forward, out MountainHit, 30) || !MountainHit.collider.gameObject.CompareTag("Mountain"))
+            {
+                isHitMountain = false;
+            }
+        }
     }
 }

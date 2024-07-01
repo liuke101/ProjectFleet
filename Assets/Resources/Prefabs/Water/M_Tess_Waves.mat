@@ -32,6 +32,7 @@ Material:
   - _COLORMODE_COLORS
   - _DISPLACEMENTMODE_GERSTNER
   - _DYNAMIC_EFFECTS_ON
+  - _EDGEFADE_ON
   - _FOAM_ON
   - _FOAM_WHITECAPS_ON
   - _NORMALSMODE_FLOWMAP
@@ -156,8 +157,8 @@ Material:
     - _DynamicEffects: 1
     - _DynamicFoam: 1
     - _DynamicNormal: 4
-    - _EdgeFade: 0
-    - _EdgeSize: 0.91
+    - _EdgeFade: 1
+    - _EdgeSize: 2
     - _EnvironmentReflections: 1
     - _FlowIntensity: 0.2
     - _FlowSpeed: 10

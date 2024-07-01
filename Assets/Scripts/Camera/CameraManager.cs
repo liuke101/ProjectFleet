@@ -5,16 +5,16 @@ using UnityEngine.Events;
 
 public class CameraManager :  MonoSingleton<CameraManager>
 {
-    public GameObject MainCamera;
+    public GameObject TopCamera;
     public List<GameObject> SceneCameras;
     
     public UnityEvent<GameObject> SwitchCameraEvent;
 
     private void Start()
     {
-        if (MainCamera != null)
+        if (TopCamera != null)
         {
-            SwitchCameraEvent?.Invoke(MainCamera);
+            SwitchCameraEvent?.Invoke(TopCamera);
         }
     }
 

@@ -17,6 +17,7 @@ public class BoxSelectController : MonoSingleton<BoxSelectController>
     public KeyCode BoxSelectKey = KeyCode.Mouse2;
     public KeyCode EndSelectKey = KeyCode.Escape;
     public KeyCode MoveKey = KeyCode.Mouse0;
+    public KeyCode FocusKey = KeyCode.C;
     
     private bool isMouseDown = false;
     
@@ -106,6 +107,19 @@ public class BoxSelectController : MonoSingleton<BoxSelectController>
                 ship.GetComponent<HighlightEffect>().SetHighlighted(false);
             }
             selectedShips.Clear();
+        }
+        
+        //单选时 可以聚焦船只
+        if(Input.GetKeyDown(FocusKey))
+        {
+            if(selectedShips.Count == 1)
+            {
+                ShipController shipController = selectedShips[0].GetComponent<ShipController>();
+                if (shipController)
+                {
+                    CameraManager.Instance.SwitchCamera(shipController.FocusCamera);
+                }
+            }
         }
     }
 
