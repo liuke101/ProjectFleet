@@ -6,8 +6,9 @@ public class ShipInfoText : MonoBehaviour
 {
     public int ID; //该ID和船的ID对应
     public TMP_Text ShipID;
-    public TMP_Text ForwardSpeed;
-    public TMP_Text TurnSpeed;
+    public TMP_Text MaxForwardSpeed;
+    public TMP_Text MaxTurnSpeed;
+    public TMP_Text CurrentForwardSpeed;
     
     
     public void SetID(int id)
@@ -20,17 +21,25 @@ public class ShipInfoText : MonoBehaviour
     
     public void SetForwardSpeed(float speed)
     {
-        if (ForwardSpeed != null)
+        if (MaxForwardSpeed != null)
         {
-            ForwardSpeed.text = $"前进速度: {speed}";
+            MaxForwardSpeed.text = $"最大前进速度: {speed}";
         }
     }
     
     public void SetTurnSpeed(float speed)
     {
-        if (TurnSpeed != null)
+        if (MaxTurnSpeed != null)
         {
-            TurnSpeed.text = $"转向速度: {speed}";
+            MaxTurnSpeed.text = $"最大转向速度: {speed}";
+        }
+    }
+    
+    public void SetCurrentForwardSpeed(float speed)
+    {
+        if (CurrentForwardSpeed != null)
+        {
+            CurrentForwardSpeed.text = $"当前前进速度: {speed:F1}";
         }
     }
 }

@@ -15,7 +15,9 @@ public class ShipNavController : MonoBehaviour
     private RaycastHit MountainHit;
     private bool isHitMountain = false; //是否检测到山
     public float PreventCollisionRayCastDistance = 50.0f; //预防碰撞检测距离
-
+    
+    public UnityEvent<float> OnAgentCurrentVelocityChanged;
+    
     
     private void Awake()
     {
@@ -35,6 +37,9 @@ public class ShipNavController : MonoBehaviour
         
         //防止与山体碰撞
         PreventCollisionWithMountains();
+
+        //广播当前速度
+        OnAgentCurrentVelocityChanged.Invoke(Agent.velocity.magnitude);
     }
 
     public void MoveTo(Vector3 pos)
@@ -42,7 +47,6 @@ public class ShipNavController : MonoBehaviour
         if (Agent != null)
         {
             Agent.SetDestination(pos);
-            
         }
     }
 
@@ -50,7 +54,6 @@ public class ShipNavController : MonoBehaviour
     {
         //绕Y轴逐渐旋转
         //transform.rotation *= Quaternion.Euler(0, angle, 0);
-        
         
         //计算一个位置，该位置与forward的夹角为angle，距离为不可达距离，模拟转向（因为navmesh没有很大，所以可能超过范围导致不移动);
         Vector3 targetPos = transform.position + Quaternion.Euler(0, angle, 0) * transform.forward * 200;
@@ -65,7 +68,7 @@ public class ShipNavController : MonoBehaviour
         Agent.angularSpeed = 0;
     }
     
-    public void SetNavSpeed(float speed)
+    public void SetNavMaxSpeed(float speed)
     {
         Agent.speed = speed;
     }
@@ -82,6 +85,8 @@ public class ShipNavController : MonoBehaviour
                 if (MountainHit.collider.gameObject.CompareTag("Mountain"))
                 {
                     //后退一段距离
+                    Agent.velocity = Vector3.zero;
+                    
                     MoveTo(transform.position - transform.forward * 30);
                     isHitMountain = true;
                 }

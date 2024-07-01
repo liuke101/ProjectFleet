@@ -40,26 +40,41 @@ public class ShipInfoPanel : MonoBehaviour
         info.transform.SetParent(VerticalLayout.transform);
         
         //监听手动控制速度变化
-        shipController.OnChangeForwardVelocity.AddListener((speed) =>
+        shipController.OnChangeMaxForwardVelocity.AddListener((speed) =>
         {
             info.SetForwardSpeed(speed);
         });
             
-        shipController.OnChangeTurnVelocity.AddListener((speed) =>
+        shipController.OnChangeMaxTurnVelocity.AddListener((speed) =>
         {
             info.SetTurnSpeed(speed);
         });
         
         //监听NavAgent速度变化
-        SpawnShipController.Instance.OnAgentSpeedChanged.AddListener((speed) =>
+        SpawnShipController.Instance.OnAgentMaxForwardSpeedChanged.AddListener((speed) =>
         {
             info.SetForwardSpeed(speed);
         });
         
-        SpawnShipController.Instance.OnAgentAngularSpeedChanged.AddListener((speed) =>
+        SpawnShipController.Instance.OnAgentMaxAngularSpeedChanged.AddListener((speed) =>
         {
             info.SetTurnSpeed(speed);
         });
+
+        ShipNavController shipNavController = shipController.gameObject.GetComponent<ShipNavController>();
+        if (shipNavController)
+        {
+            shipNavController.OnAgentCurrentVelocityChanged.AddListener((speed) =>
+            {
+                info.SetCurrentForwardSpeed(speed);
+            });
+        }
+
+
+
+
+
+
 
     }
     

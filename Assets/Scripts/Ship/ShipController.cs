@@ -62,8 +62,9 @@ public class ShipController : MonoBehaviour
 	[SerializeField] private float TurnSpeedAwaited = 0.0f;
 
 	[Header("事件")] 
-	public UnityEvent<float> OnChangeForwardVelocity;
-	public UnityEvent<float> OnChangeTurnVelocity;
+	public UnityEvent<float> OnChangeMaxForwardVelocity;
+	public UnityEvent<float> OnChangeMaxTurnVelocity;
+	public UnityEvent<float> OnChangeCurrentForwardVelocity;
 
 	[Header("UI")] 
 	[SerializeField] private Text m_forwardSpeedText;
@@ -169,6 +170,9 @@ public class ShipController : MonoBehaviour
 		}
 
 		m_rigidbody.velocity = transform.forward * CurrentForwardSpeed;
+		
+		//广播当前速度
+		OnChangeCurrentForwardVelocity.Invoke(m_rigidbody.velocity.magnitude);
 	}
 
 	private void OnCollisionEnter(Collision other)
@@ -191,7 +195,7 @@ public class ShipController : MonoBehaviour
 		
 		//广播事件
 		//保留两位小数
-		OnChangeForwardVelocity.Invoke(ForwardVelocities[CurrentForwardVelocityIndex].Speed);
+		OnChangeMaxForwardVelocity.Invoke(ForwardVelocities[CurrentForwardVelocityIndex].Speed);
 
 	}
 
@@ -202,7 +206,7 @@ public class ShipController : MonoBehaviour
 
 		//m_lastForwardVelocity = m_currentForwardVelocity;
 		CurrentForwardVelocityIndex = Math.Max(CurrentForwardVelocityIndex - 1, 0);
-		OnChangeForwardVelocity.Invoke(ForwardVelocities[CurrentForwardVelocityIndex].Speed);
+		OnChangeMaxForwardVelocity.Invoke(ForwardVelocities[CurrentForwardVelocityIndex].Speed);
 	}
 
 	public void TurnRight()
@@ -212,7 +216,7 @@ public class ShipController : MonoBehaviour
 
 		//m_lastTurnVelocity = m_currentTurnVelocity;
 		CurrentTurnVelocityIndex = Math.Min(CurrentTurnVelocityIndex + 1, TurnVelocities.Length - 1);
-		OnChangeTurnVelocity.Invoke(TurnVelocities[CurrentTurnVelocityIndex].Speed);
+		OnChangeMaxTurnVelocity.Invoke(TurnVelocities[CurrentTurnVelocityIndex].Speed);
 	}
 
 	public void TurnLeft()
@@ -222,7 +226,7 @@ public class ShipController : MonoBehaviour
 
 		//m_lastTurnVelocity = m_currentTurnVelocity;
 		CurrentTurnVelocityIndex = Math.Max(CurrentTurnVelocityIndex - 1, 0);
-		OnChangeTurnVelocity.Invoke(TurnVelocities[CurrentTurnVelocityIndex].Speed);
+		OnChangeMaxTurnVelocity.Invoke(TurnVelocities[CurrentTurnVelocityIndex].Speed);
 	}
 
 	public void StopShip()
@@ -232,8 +236,8 @@ public class ShipController : MonoBehaviour
 		m_currentForwardIndicatorValue = 0.0f;
 		m_currentTurnIndicatorValue = 0.0f;
 		m_rigidbody.velocity = Vector3.zero;
-		OnChangeForwardVelocity.Invoke(ForwardVelocities[CurrentForwardVelocityIndex].Speed);
-		OnChangeTurnVelocity.Invoke(TurnVelocities[CurrentTurnVelocityIndex].Speed);
+		OnChangeMaxForwardVelocity.Invoke(ForwardVelocities[CurrentForwardVelocityIndex].Speed);
+		OnChangeMaxTurnVelocity.Invoke(TurnVelocities[CurrentTurnVelocityIndex].Speed);
 	}
 	
 	//注册船只信息

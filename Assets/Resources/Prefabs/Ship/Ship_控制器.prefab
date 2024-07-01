@@ -16,7 +16,7 @@ GameObject:
   m_Icon: {fileID: -1412012063857583412, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &6339139623651154537
 Transform:
   m_ObjectHideFlags: 0
@@ -1336,6 +1336,7 @@ GameObject:
   - component: {fileID: 5688418461443796347}
   - component: {fileID: 1554019997379041584}
   - component: {fileID: 8720998839927969299}
+  - component: {fileID: 2059307908468130596}
   m_Layer: 0
   m_Name: Rotor_L
   m_TagString: Untagged
@@ -1408,6 +1409,21 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &2059307908468130596
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2128264899353722376}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f86195b2fd2b6784f94b65a7efdfe928, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  shipController: {fileID: 2120198303020389799}
+  isRightPropeller: 0
+  PropellerSpeed: 10
 --- !u!1 &2156221332892242246
 GameObject:
   m_ObjectHideFlags: 0
@@ -1752,7 +1768,7 @@ ParticleSystem:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2646698395925673208}
   serializedVersion: 8
-  lengthInSec: 5
+  lengthInSec: 10
   simulationSpeed: 1
   stopAction: 0
   cullingMode: 0
@@ -6567,7 +6583,7 @@ Transform:
   m_GameObject: {fileID: 2646698396235787293}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -5, z: 7.8}
+  m_LocalPosition: {x: 0, y: -3, z: 7}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -6631,7 +6647,7 @@ ParticleSystem:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2646698396409278251}
   serializedVersion: 8
-  lengthInSec: 5
+  lengthInSec: 10
   simulationSpeed: 1
   stopAction: 0
   cullingMode: 0
@@ -11506,7 +11522,7 @@ TrailRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Time: 3
+  m_Time: 8
   m_PreviewTimeScale: 1
   m_Parameters:
     serializedVersion: 3
@@ -12685,10 +12701,13 @@ MonoBehaviour:
   ForwardAcceleration: 2
   TurnAcceleration: 20
   TurnSpeedAwaited: 0
-  OnChangeForwardVelocity:
+  OnChangeMaxForwardVelocity:
     m_PersistentCalls:
       m_Calls: []
-  OnChangeTurnVelocity:
+  OnChangeMaxTurnVelocity:
+    m_PersistentCalls:
+      m_Calls: []
+  OnChangeCurrentForwardVelocity:
     m_PersistentCalls:
       m_Calls: []
   m_forwardSpeedText: {fileID: 0}
@@ -12891,8 +12910,8 @@ NavMeshAgent:
   m_Enabled: 1
   m_AgentTypeID: -1372625422
   m_Radius: 10
-  m_Speed: 30
-  m_Acceleration: 2
+  m_Speed: 20
+  m_Acceleration: 1
   avoidancePriority: 50
   m_AngularSpeed: 10
   m_StoppingDistance: 0
@@ -12916,7 +12935,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Agent: {fileID: 0}
-  PreventCollisionRayCastDistance: 50
+  PreventCollisionRayCastDistance: 30
+  OnAgentCurrentVelocityChanged:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &3940220868136418779
 GameObject:
   m_ObjectHideFlags: 0
@@ -13968,6 +13990,7 @@ GameObject:
   - component: {fileID: 7817478880943586032}
   - component: {fileID: 2281268333916719453}
   - component: {fileID: 1014368157488053375}
+  - component: {fileID: 5954577271053565873}
   m_Layer: 0
   m_Name: Rotor_R
   m_TagString: Untagged
@@ -14040,6 +14063,21 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &5954577271053565873
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6289880281244405950}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f86195b2fd2b6784f94b65a7efdfe928, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  shipController: {fileID: 2120198303020389799}
+  isRightPropeller: 1
+  PropellerSpeed: 10
 --- !u!1 &6356472783233591040
 GameObject:
   m_ObjectHideFlags: 0
@@ -14636,6 +14674,7 @@ GameObject:
   - component: {fileID: 8326749412133200033}
   - component: {fileID: 6930416513453459316}
   - component: {fileID: 1918445441984636269}
+  - component: {fileID: 7829310807020702849}
   m_Layer: 0
   m_Name: Rudder
   m_TagString: Untagged
@@ -14708,6 +14747,21 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &7829310807020702849
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6950601146445139871}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9fa902d23bb26f14c8c688941f6e10bb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  shipController: {fileID: 2120198303020389799}
+  maxRudderAngle: 30
+  anticipationFactor: 0.5
 --- !u!1 &7198476381454211439
 GameObject:
   m_ObjectHideFlags: 0

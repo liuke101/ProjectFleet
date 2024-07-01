@@ -8,8 +8,8 @@ public class SpawnShipController : MonoSingleton<SpawnShipController>
 {
     public GameObject ShipPrefab;
     
-    public UnityEvent<float> OnAgentSpeedChanged;
-    public UnityEvent<float> OnAgentAngularSpeedChanged;
+    public UnityEvent<float> OnAgentMaxForwardSpeedChanged;
+    public UnityEvent<float> OnAgentMaxAngularSpeedChanged;
     
     public void Start()
     {
@@ -40,12 +40,12 @@ public class SpawnShipController : MonoSingleton<SpawnShipController>
             if (shipNavController)
             {
                 //设置速度
-                shipNavController.SetNavSpeed((float)data.speed);
+                shipNavController.SetNavMaxSpeed((float)data.speed);
             
                 //广播速度信息到UI
-                OnAgentSpeedChanged?.Invoke((float)data.speed);
-                OnAgentAngularSpeedChanged?.Invoke(shipNavController.Agent.angularSpeed); //角速度 目前是写死的，在NavMeshAgent中设置
-                 
+                OnAgentMaxForwardSpeedChanged?.Invoke((float)data.speed);
+                OnAgentMaxAngularSpeedChanged?.Invoke(shipNavController.Agent.angularSpeed); //角速度 目前是写死的，在NavMeshAgent中设置
+                
                 //规定99999时，为转向操作（目的地数据无效）
                 if (data.des_x_coordinate >= 90000.0 && data.des_y_coordinate >= 90000.0)
                 {
