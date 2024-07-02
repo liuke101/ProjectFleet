@@ -24,11 +24,11 @@ public class ShipNavController : MonoBehaviour
     {
         Agent = GetComponent<NavMeshAgent>();
         TargetLine = GetComponent<LineRenderer>();
-        if (TargetLine)
-        {
-            TargetLine.positionCount = 2;//设置两点
-            TargetLine.widthCurve = AnimationCurve.Linear(0, 0.1f, 1, 0.1f); //宽度
-        }
+        
+        // if (TargetLine)
+        // {
+        //     TargetLine.widthCurve = AnimationCurve.Linear(0, 0.1f, 1, 0.1f); //宽度
+        // }
     }
 
     private void Update()
@@ -46,6 +46,9 @@ public class ShipNavController : MonoBehaviour
 
         //广播当前速度
         OnAgentCurrentVelocityChanged.Invoke(Agent.velocity.magnitude);
+        
+        
+        //TargetLine.SetPosition(0, new Vector3(transform.position.x, 3.0f, transform.position.z));
     }
 
     public void MoveTo(Vector3 pos)
@@ -53,7 +56,7 @@ public class ShipNavController : MonoBehaviour
         //清空目标知识点
         BoxSelectController.Instance?.ClearTargetPoints();
         //清空指示线
-        TargetLine.positionCount = 0; 
+        //TargetLine.positionCount = 0; 
         
         if (Agent != null)
         {
@@ -61,9 +64,8 @@ public class ShipNavController : MonoBehaviour
             BoxSelectController.Instance?.SpwanTargetPoint(pos);
             
             //设置指示线的起点和终点
-            TargetLine.positionCount = 2;
-            TargetLine.SetPosition(0, transform.position);
-            TargetLine.SetPosition(1, pos);
+            // TargetLine.positionCount = 2;
+            // TargetLine.SetPosition(1, new Vector3(pos.x, 3.0f, pos.z));
         }
     }
 
