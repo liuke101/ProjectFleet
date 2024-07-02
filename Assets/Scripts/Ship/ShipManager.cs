@@ -47,4 +47,11 @@ public class ShipManager : MonoSingleton<ShipManager>
     {
         return ShipInfos.Find(x => x.ID == id);
     }
+    
+    public ShipController GetShipController(int id)
+    {
+        ShipController[] shipControllers = GameObject.FindObjectsOfType<ShipController>();
+        
+        return shipControllers[Array.FindIndex(shipControllers, x => x.shipInfo.ID == id)];
+    }
 }

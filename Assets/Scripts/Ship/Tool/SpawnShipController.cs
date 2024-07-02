@@ -18,25 +18,24 @@ public class SpawnShipController : MonoSingleton<SpawnShipController>
 
     public void SpawnShip(ShipWebSocketData data)
     {
-        GameObject Ship = null;
+        //GameObject Ship = null;
         
         //如果不存存在该船只，则创建并初始化
-        if(!ShipManager.Instance.ShipInfos.Exists(x => x.ID == data.ship_id))
+        if(!ShipManager.Instance.ShipInfos.Exists(x => x.ID == (int)data.ship_id))
         {
-            Ship = Instantiate(ShipPrefab, new Vector3((float)data.x_coordinate, 0, (float)data.y_coordinate),
+            GameObject Ship = Instantiate(ShipPrefab, new Vector3((float)data.x_coordinate, 0, (float)data.y_coordinate),
                 Quaternion.identity);
 
             ShipController shipController = Ship.GetComponent<ShipController>();
             if(shipController)
             {
-                shipController.InitShipInfo(data.ship_id);
+                shipController.InitShipInfo((int)data.ship_id);
             }
         }
-        
-        //位置控制
-        if (Ship != null)
+        else //如果已存在则进行位置控制
         {
-            ShipNavController shipNavController = Ship.GetComponent<ShipNavController>();
+            ShipNavController shipNavController = ShipManager.Instance.GetShipController((int)data.ship_id).GetComponent<ShipNavController>();
+            
             if (shipNavController)
             {
                 //设置速度

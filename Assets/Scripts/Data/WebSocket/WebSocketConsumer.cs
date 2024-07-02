@@ -42,14 +42,14 @@ public class WebSocketConsumer : MonoSingleton<WebSocketConsumer>
     private void Test()
     {
         // 本地测试
-        // 读取Resources文件夹下的TestData.json文件
-        string jsonStr = Resources.Load<TextAsset>("Data/TestData").text;
-        ShipWebSocketData data = JsonParser(jsonStr);
-        if(data != null)
-        {
-            OnShipWebSocketMessageReceived?.Invoke(data);
-            MessageBox.Instance.PrintShipWebSocketData(data);
-        }
+        //读取Resources文件夹下的TestData.json文件
+        // string jsonStr = Resources.Load<TextAsset>("Data/TestData").text;
+        // ShipWebSocketData data = JsonParser(jsonStr);
+        // if(data != null)
+        // {
+        //     OnShipWebSocketMessageReceived?.Invoke(data);
+        //     MessageBox.Instance.PrintShipWebSocketData(data);
+        // }
     }
 
     private void OnDestroy()
@@ -136,6 +136,15 @@ public class WebSocketConsumer : MonoSingleton<WebSocketConsumer>
             des_x_coordinate = (double)jsonData["value"]["features"]["des_x_coordinate"]["properties"]["value"],
             des_y_coordinate = (double)jsonData["value"]["features"]["des_y_coordinate"]["properties"]["value"],
         };
+        
+        // if(WebSocketData != null)
+        // {
+        //     MessageBox.Instance.PrintMessage("Json解析成功");
+        // }
+        // else
+        // {
+        //     MessageBox.Instance.PrintMessage("Json解析失败");
+        // }
         
         return WebSocketData;
     }

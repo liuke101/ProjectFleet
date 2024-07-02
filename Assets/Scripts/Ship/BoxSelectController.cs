@@ -9,15 +9,22 @@ using UnityEngine.Serialization;
 public class BoxSelectController : MonoSingleton<BoxSelectController>
 {
     [Header("LineRenderer")]
-    public LineRenderer lineRenderer;
+    public LineRenderer BoxLineRenderer;
     public float lineDepth = 5.0f; //绘制线框的深度
     public float lineWidth = 0.1f; //线框的宽度
-   
-    [FormerlySerializedAs("BoxSelectkey")] [Header("键位")] 
+
+    [Header("Target")] 
+    public GameObject TargetPoint; //目标指示点
+
+    [HideInInspector]public List<GameObject> TargetPoints = new List<GameObject>();
+    
+    [Header("键位")] 
     public KeyCode BoxSelectKey = KeyCode.Mouse2;
     public KeyCode EndSelectKey = KeyCode.Escape;
     public KeyCode MoveKey = KeyCode.Mouse0;
     public KeyCode FocusKey = KeyCode.C;
+    
+    
     
     private bool isMouseDown = false;
     
@@ -44,20 +51,23 @@ public class BoxSelectController : MonoSingleton<BoxSelectController>
 
     protected override void Awake()
     {
-        lineRenderer = GetComponent<LineRenderer>();
+        BoxLineRenderer = GetComponent<LineRenderer>();
     }
 
     void Start()
     {
-        if (lineRenderer)
+        if (BoxLineRenderer)
         {
-            lineRenderer.loop = true; //设置线框为闭合的
-            lineRenderer.widthCurve = AnimationCurve.Constant(0, 1, lineWidth); //设置线框的宽度    
+            BoxLineRenderer.loop = true; //设置线框为闭合的
+            BoxLineRenderer.widthCurve = AnimationCurve.Constant(0, 1, lineWidth); //设置线框的宽度    
         }
     }
 
     void Update()
     {
+        //防止射线穿过UI
+        if(UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject()) return;
+        
         //鼠标中键框选
         if(Input.GetKeyDown(BoxSelectKey))
         {
@@ -77,7 +87,7 @@ public class BoxSelectController : MonoSingleton<BoxSelectController>
         {
             isMouseDown = false;
             //将线框的点数设置为0,就不会绘制线框
-            lineRenderer.positionCount = 0;
+            BoxLineRenderer.positionCount = 0;
 
             //每次选择士兵，清空上次选择
             frontMousePos = Vector3.zero;
@@ -131,13 +141,13 @@ public class BoxSelectController : MonoSingleton<BoxSelectController>
         leftDownPoint = new Vector3(leftUpPoint.x, rightDownPoint.y, lineDepth);
 
         //屏幕坐标转换为世界坐标
-        lineRenderer.positionCount = 4;
+        BoxLineRenderer.positionCount = 4;
         if (Camera.main != null)
         {
-            lineRenderer.SetPosition(0, Camera.main.ScreenToWorldPoint(leftUpPoint));
-            lineRenderer.SetPosition(1, Camera.main.ScreenToWorldPoint(rightUpPoint));
-            lineRenderer.SetPosition(2, Camera.main.ScreenToWorldPoint(rightDownPoint));
-            lineRenderer.SetPosition(3, Camera.main.ScreenToWorldPoint(leftDownPoint));
+            BoxLineRenderer.SetPosition(0, Camera.main.ScreenToWorldPoint(leftUpPoint));
+            BoxLineRenderer.SetPosition(1, Camera.main.ScreenToWorldPoint(rightUpPoint));
+            BoxLineRenderer.SetPosition(2, Camera.main.ScreenToWorldPoint(rightDownPoint));
+            BoxLineRenderer.SetPosition(3, Camera.main.ScreenToWorldPoint(leftDownPoint));
         }
     }
 
@@ -196,7 +206,10 @@ public class BoxSelectController : MonoSingleton<BoxSelectController>
     public void MoveTo()
     {
         if (selectedShips.Count <= 0) return;
-
+        
+        //清空目标知识点
+        ClearTargetPoints();
+        
         //目标位置
         if (Physics.Raycast(
                 Camera.main.ScreenPointToRay(Input.mousePosition),
@@ -215,6 +228,9 @@ public class BoxSelectController : MonoSingleton<BoxSelectController>
                     //Debug.DrawLine(TargetPositions[i], TargetPositions[i] + Vector3.up * 100, Color.red, 100.0f);
                     //船朝向阵列目标移动
                     navController.MoveTo(TargetPositions[i]);
+                    
+                    //在目标点生成TargetPoint,
+                    SpwanTargetPoint(TargetPositions[i]);
                 }
             }
         }
@@ -329,5 +345,21 @@ public class BoxSelectController : MonoSingleton<BoxSelectController>
         frontMousePos = targetPos;
 
         return targetPositions;
+    }
+
+    //在目标点生成TargetPoint
+    public void SpwanTargetPoint(Vector3 TargetPosition)
+    {
+        GameObject point = Instantiate(TargetPoint, new Vector3(TargetPosition.x,1.5f,TargetPosition.z), Quaternion.Euler(90,0,0));
+        TargetPoints.Add(point);
+    }
+
+    //清空目标知识点
+    public void ClearTargetPoints()
+    {
+        foreach (var point in TargetPoints)
+        {
+            Destroy(point);
+        }
     }
 }

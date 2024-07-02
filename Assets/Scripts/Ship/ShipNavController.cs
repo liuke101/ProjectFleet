@@ -9,7 +9,6 @@ using UnityEngine.Events;
 /// </summary>
 public class ShipNavController : MonoBehaviour
 {
-    private ShipController ShipController;
     public NavMeshAgent Agent;
     
     private RaycastHit MountainHit;
@@ -17,12 +16,19 @@ public class ShipNavController : MonoBehaviour
     public float PreventCollisionRayCastDistance = 50.0f; //预防碰撞检测距离
     
     public UnityEvent<float> OnAgentCurrentVelocityChanged;
-    
+
+    [Header("目标线")] 
+    public LineRenderer TargetLine;
     
     private void Awake()
     {
-        ShipController = GetComponent<ShipController>();
         Agent = GetComponent<NavMeshAgent>();
+        TargetLine = GetComponent<LineRenderer>();
+        if (TargetLine)
+        {
+            TargetLine.positionCount = 2;//设置两点
+            TargetLine.widthCurve = AnimationCurve.Linear(0, 0.1f, 1, 0.1f); //宽度
+        }
     }
 
     private void Update()
@@ -44,9 +50,20 @@ public class ShipNavController : MonoBehaviour
 
     public void MoveTo(Vector3 pos)
     {
+        //清空目标知识点
+        BoxSelectController.Instance?.ClearTargetPoints();
+        //清空指示线
+        TargetLine.positionCount = 0; 
+        
         if (Agent != null)
         {
             Agent.SetDestination(pos);
+            BoxSelectController.Instance?.SpwanTargetPoint(pos);
+            
+            //设置指示线的起点和终点
+            TargetLine.positionCount = 2;
+            TargetLine.SetPosition(0, transform.position);
+            TargetLine.SetPosition(1, pos);
         }
     }
 
